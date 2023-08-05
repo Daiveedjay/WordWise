@@ -1,0 +1,125 @@
+/* .dark .nav__component {
+  box-shadow: 3px 5px 5px rgba(255, 255, 255, 0.5) !important;
+} */
+
+.nav__component {
+  display: flex;
+  gap: 5rem;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 3px 5px 5px var(--light-box-shadow),
+    -3px -5px 5px var(--light-box-shadow);
+}
+
+.logo__container {
+  margin-right: auto;
+}
+
+.font__dropdown select {
+  padding: 1rem;
+  border: none;
+  border: 1.5px solid #222;
+}
+
+.font__dropdown select:focus {
+  outline: none;
+}
+
+.theme__switcher {
+  /* border: 2px solid red; */
+  position: relative;
+  min-width: 7.5rem;
+  /* padding: 0 1rem; */
+}
+
+.theme__switcher label {
+  /* border: 2px solid rgb(0, 255, 64); */
+
+  padding: 2rem;
+  position: relative;
+  border-radius: 30px;
+  cursor: pointer;
+  background: #333;
+  /* background: rgba(63, 61, 61, 0.9); */
+  display: block;
+  /* justify-content: ; */
+}
+
+.theme__switcher input {
+  display: none;
+}
+
+.theme__switcher input:checked + label {
+  border-color: black;
+}
+
+.theme__switcher label svg {
+  width: 2.25rem;
+  height: 1.75rem;
+  transition: ease-in-out all 0.5s;
+}
+
+.fa_sun {
+  position: absolute;
+  top: 50%;
+  left: 7.5px;
+  transform: translateY(-50%);
+  fill: #ffd700;
+}
+
+.fa_moon {
+  position: absolute;
+  top: 50%;
+  right: 7.5px;
+  transform: translateY(-50%);
+  fill: #fff;
+}
+.ball {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--primary-dark);
+  position: absolute;
+  top: 50%;
+  left: 7.5px;
+  transform: translateY(-50%);
+  transition: ease-in-out all 0.5s;
+}
+.theme__switcher input:checked + label .fa_sun {
+  transform: translateY(-50%) rotate(180deg);
+  /* left: 100%;
+  transform: translate(-100%, -50%); */
+}
+
+.theme__switcher input:checked + label .ball {
+  left: calc(100% - 7.5px);
+  transform: translate(-100%, -50%) rotate(180deg);
+  background-color: #fff;
+}
+
+.theme__switcher input:checked + label .fa_moon {
+  right: 100%;
+  transform: translate(100%, -50%) rotate(180deg);
+  opacity: 0;
+}
+
+/*  */
+/* Add a new CSS class for the checked state */
+.theme__switcher.checked + label .ball {
+  left: calc(100% - 7.5px);
+  transform: translate(-100%, -50%) rotate(180deg);
+  background-color: #fff;
+}
+.theme__switcher.checked + label .fa_sun {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.theme__switcher.checked + label .fa_moon {
+  right: 100%;
+  transform: translate(100%, -50%) rotate(180deg);
+  opacity: 0;
+}
+
+/* .theme__switcher.checked .ball {
+  border: 5px solid green;
+} */
