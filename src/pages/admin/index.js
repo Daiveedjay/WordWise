@@ -161,9 +161,14 @@ export default function AdminPage() {
             </div>
             <div className={styles.user__details}>
               <h2>{user?.displayName}</h2>
+
               <p>
                 <Image src={StarIcon} alt="Star Icon" width={15} height={15} />
-                Daily Streak: 2
+                Total Points: 32
+              </p>
+              <p>
+                <Image src={StarIcon} alt="Star Icon" width={15} height={15} />
+                Test Overall : 32/60
               </p>
               <p>
                 <Image
@@ -172,7 +177,7 @@ export default function AdminPage() {
                   width={15}
                   height={15}
                 />
-                Quiz Points: 17
+                Test Percentage: 56%
               </p>
 
               <button

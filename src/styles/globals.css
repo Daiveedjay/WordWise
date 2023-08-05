@@ -202,7 +202,8 @@ li::marker {
 }
 
 .correct {
-  background: #40e0d0 !important;
+  background: #82e0aa !important;
+  background: #2ecc71 !important;
 }
 
 .wrong {

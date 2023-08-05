@@ -160,10 +160,12 @@ import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Quiz.module.css";
 import { FaRegQuestionCircle } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function QuizPage({ data }) {
   console.log(data);
-  const questions = data.slice(0, 10);
+  const questions = data.slice(0, 2);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -171,11 +173,13 @@ function QuizPage({ data }) {
   const [allAnswers, setAllAnswers] = useState([]);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+  const [areButtonsDisabled, setAreButtonsDisabled] = useState(false);
+
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
   const [quizCompleted, setQuizCompleted] = useState(false);
 
   const questionObj = questions[currentQuestion];
-  // console.log("Here", questionObj, currentQuestion);
   const questionText = questionObj?.question.text;
   const correctAnswer = questionObj?.correctAnswer;
   const incorrectAnswers = questionObj?.incorrectAnswers;
@@ -191,10 +195,19 @@ function QuizPage({ data }) {
     return answers.sort(() => Math.random() - 0.5);
   };
 
+  // const handleAnswerSelect = (answer) => {
+  //   setIsAnswerCorrect(false);
+  //   setSelectedAnswer(answer);
+  //   console.log("My answer", answer);
+  // };
+
   const handleAnswerSelect = (answer) => {
     setIsAnswerCorrect(false);
     setSelectedAnswer(answer);
-    console.log("My answer", answer);
+    setShowSubmitButton(true); // Enable the "Submit" button when an answer is selected
+    setAreButtonsDisabled(false); // Enable answer buttons after a new answer is selected
+    setIsAnswerSubmitted(false); // Reset answer submission status
+    setIsSubmitClicked(false);
   };
 
   useEffect(() => {
@@ -204,55 +217,86 @@ function QuizPage({ data }) {
   const handleNextQuestion = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      setIsAnswerSubmitted(false);
+      setAreButtonsDisabled(false);
+
+      setIsSubmitClicked(false);
     } else {
       setQuizCompleted(true);
     }
     setSelectedAnswer(null);
   };
 
-  // const handleSubmit = () => {
-  //   setShowSubmitButton(false);
-  //   setIsAnswerSubmitted(true);
-  //   if (selectedAnswer === correctAnswer) {
-  //     setIsAnswerCorrect(true);
-  //     alert("Correct answer!");
-  //   } else {
-  //     setIsAnswerCorrect(false);
-  //     alert("Incorrect answer. Try again.");
-  //   }
-  // };
+  const [wrongAns, setWrongAns] = useState([]);
+  const [rightAns, setRightAns] = useState([]);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   const handleSubmit = () => {
+    console.log(allAnswers);
+    const wrongAns = allAnswers.filter((ans) => ans !== correctAnswer);
+    const rightAns = allAnswers.filter((ans) => ans === correctAnswer);
+    setRightAns(rightAns);
+    console.log("check", wrongAns);
+    setWrongAns(wrongAns);
+    setShowSubmitButton(false);
     setIsAnswerSubmitted(true);
-
-    // Determine if the selected answer is correct
-    const isCorrect = selectedAnswer === correctAnswer;
-
-    // Create a new array of answer buttons with updated classes
-    const updatedAnswers = allAnswers.map((answer) => ({
-      text: answer,
-      isCorrect: answer === correctAnswer,
-      isSelected: answer === selectedAnswer,
-    }));
-
-    setAllAnswers(updatedAnswers);
-
-    if (isCorrect) {
+    setAreButtonsDisabled(true);
+    setIsSubmitClicked(true);
+    if (selectedAnswer === correctAnswer) {
       setIsAnswerCorrect(true);
-      alert("Correct answer!");
+      toast.success("Correct answer!");
+      setCorrectAnswersCount((prevCount) => prevCount + 1);
     } else {
       setIsAnswerCorrect(false);
-      alert("Incorrect answer. Try again.");
+      toast.error("Incorrect answer. Try again.");
     }
-
-    setShowSubmitButton(false);
   };
+  useEffect(() => console.log("check 2", wrongAns), [wrongAns]);
 
   console.log("Length", currentQuestion, questions.length);
+  // const handleRestart = () => {
+  //   setCurrentQuestion(0);
+  //   setQuizCompleted(false);
+  // };
+  const handleRestart = () => {
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setShowSubmitButton(false);
+    setAllAnswers([]);
+    setIsAnswerSubmitted(false);
+    setIsAnswerCorrect(false);
+    setAreButtonsDisabled(false);
+    setIsSubmitClicked(false);
+    setQuizCompleted(false);
+    setWrongAns([]);
+    setRightAns([]);
+    setCorrectAnswersCount(0);
+  };
+
+  const generateNewQuiz = () => {
+    const newQuestions = shuffleQuestions(data.slice(0, 10)); // Generate new shuffled questions
+    setCurrentQuestion(0); // Start from the first question
+    newQuestions(newQuestions); // Update the questions state with new questions
+    setSelectedAnswer(null);
+    setShowSubmitButton(false);
+    setIsAnswerSubmitted(false);
+    setIsAnswerCorrect(false);
+    setAreButtonsDisabled(false);
+    setIsSubmitClicked(false);
+    setWrongAns([]);
+    setRightAns([]);
+    setCorrectAnswersCount(0);
+    setQuizCompleted(false);
+  };
+
+  useEffect(() => {
+    console.log("current que", currentQuestion);
+  }, [currentQuestion]);
 
   return (
     <Layout title={"Quiz"}>
       <div className={styles.quiz__page}>
+        <ToastContainer />
         {!quizCompleted && currentQuestion <= questions.length - 1 ? (
           <div className={styles.quiz__question}>
             <h2 className={styles.question__number}>
@@ -264,6 +308,14 @@ function QuizPage({ data }) {
             <ul className={styles.answers__container}>
               {allAnswers.map((answer, answerIndex) => (
                 <li className={styles.answer__option} key={answerIndex}>
+                  <div
+                    className={`${styles.answer__letter} ${
+                      selectedAnswer === answer ? "selected" : ""
+                    }`}
+                  >
+                    {String.fromCharCode(97 + answerIndex)}
+                    {/* Convert index to letter */}
+                  </div>
                   <button
                     className={`${styles.answer__button} ${
                       selectedAnswer === answer ? "selected" : ""
@@ -275,35 +327,66 @@ function QuizPage({ data }) {
                         : ""
                     }`}
                     onClick={() => handleAnswerSelect(answer)}
+                    disabled={areButtonsDisabled}
                   >
                     {answer}
                   </button>
                 </li>
               ))}
             </ul>
+
             <div className={styles.action__buttons}>
               <button
-                className={styles.submit__button}
-                onClick={handleSubmit}
-                disabled={!selectedAnswer}
+                onClick={() => {
+                  if (currentQuestion > 0) {
+                    handleRestart();
+                  }
+                }}
+                className={styles.restart__quiz}
               >
-                Submit
+                Restart Quiz
               </button>
+              <div className={styles.controls}>
+                {showSubmitButton && (
+                  <button
+                    className={styles.submit__button}
+                    onClick={handleSubmit}
+                    disabled={
+                      !selectedAnswer || areButtonsDisabled || isSubmitClicked
+                    }
+                  >
+                    Submit
+                  </button>
+                )}
 
-              {/* {selectedAnswer && !showSubmitButton && ( */}
-              {currentQuestion <= questions.length && (
-                <button
-                  className={styles.next__button}
-                  onClick={handleNextQuestion}
-                >
-                  Next Question
-                </button>
-              )}
+                {currentQuestion <= questions.length && (
+                  <button
+                    className={styles.next__button}
+                    onClick={handleNextQuestion}
+                    // disabled={
+                    //   isAnswerSubmitted === false || areButtonsDisabled === true
+                    // }
+                    disabled={!isSubmitClicked}
+                  >
+                    Next Question
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         ) : (
           <div className={styles.quiz__result}>
             <h2>Congratulations! You have completed the quiz.</h2>
+            <p>
+              You answered {correctAnswersCount} out of {questions.length}{" "}
+              questions correctly.
+            </p>
+            <p>
+              Percentage pass: {(correctAnswersCount / questions.length) * 100}%
+            </p>
+            <button onClick={handleRestart} className={styles.restart__quiz}>
+              Restart Quiz
+            </button>
           </div>
         )}
       </div>
@@ -334,3 +417,18 @@ export async function getServerSideProps() {
 //   : answer === correctAnswer
 //   ? "correct"
 //   : "wrong"
+
+{
+  /* {isAnswerSubmitted &&
+                wrongAns.map((ans) => (
+                  <button className="wrong" key={ans}>
+                    {ans}
+                  </button>
+                ))}
+              {isAnswerSubmitted &&
+                rightAns.map((ans) => (
+                  <button className="correct" key={ans}>
+                    {ans}
+                  </button>
+                ))} */
+}

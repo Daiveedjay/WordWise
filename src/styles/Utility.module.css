@@ -14,12 +14,6 @@
 }
 
 .utility__results li {
-  /* border: 2px solid green; */
-  /* box-shadow: 2px 3px 5px rgba(0, 0, 0, var(--text-dark)); */
-  /* box-shadow: 2px 3px 5px rgba(255, 255, 255, 0.05); */
-
-  /* box-shadow: 2px 3px 5px var(--light-box-shadow),
-    -2px -3px 5px var(--light-box-shadow); */
   box-shadow: 2px 3px 5px var(--light-box-shadow);
   list-style: none;
   text-align: center;
@@ -30,6 +24,7 @@
   position: relative;
   /*  */
   overflow: hidden;
+  background: var(--btn-bg);
 }
 
 .utility__results li::before {
@@ -50,6 +45,7 @@
 .utility__results li:hover {
   /* transform: translateY(-5px); */
   color: #fff;
+  background: none;
 }
 .utility__results li:hover::before {
   top: -10%;

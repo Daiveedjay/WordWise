@@ -39,14 +39,36 @@
 
 .question__text {
   margin: 1rem 0;
+  line-height: 1.6;
 }
 
 .answers__container {
-  margin: 2.5rem 0;
+  margin: 2rem 0;
   display: flex;
   list-style: none;
   gap: 2rem;
   flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.answer__option {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.answer__letter {
+  padding: 1rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: var(--btn-bg);
+  cursor: pointer;
 }
 
 .answer__option button {
@@ -65,6 +87,7 @@
   display: flex;
   gap: 2rem;
   justify-content: center;
+  /* border: 2px solid red; */
 }
 
 .action__buttons button {
@@ -74,18 +97,26 @@
   cursor: pointer;
   font-size: 1.6rem;
   font-weight: 500;
-  /* background: #f7f4f4;
-  background: #3f3d3d; */
   background: var(--btn-bg);
 }
 
-.selected {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 5px;
-}
-
-.action__buttons button:first-child {
+.action__buttons button:nth-child(2) {
   background: var(--primary-color);
   color: var(--text-color);
   color: #fff;
+}
+
+.controls {
+  /* border: 2px solid blue; */
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  gap: 2rem;
+}
+/* .action__buttons button:first-child {
+  margin-right: auto;
+} */
+.action__buttons .restart__quiz {
+  color: #fff;
+  background: var(--error);
 }
