@@ -215,6 +215,7 @@ function QuizPage({ data }) {
   }, [selectedAnswer]);
 
   const handleNextQuestion = () => {
+    setAllAnswers([]);
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setIsAnswerSubmitted(false);
@@ -232,12 +233,21 @@ function QuizPage({ data }) {
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   const handleSubmit = () => {
-    console.log(allAnswers);
-    const wrongAns = allAnswers.filter((ans) => ans !== correctAnswer);
-    const rightAns = allAnswers.filter((ans) => ans === correctAnswer);
-    setRightAns(rightAns);
-    console.log("check", wrongAns);
-    setWrongAns(wrongAns);
+    console.log('----All answers-----', allAnswers);
+    console.log('correct answers-----', correctAnswer);
+    allAnswers.forEach((answer) => {
+      if (answer === correctAnswer) {
+        const buttonElement = document.querySelector(`[data-text="${answer}"]`);
+        buttonElement.classList.remove('wrong');
+        buttonElement.classList.add('correct');
+        console.log('----- The found button------', buttonElement)
+      }
+    });
+    // const wrongAns = allAnswers.filter((ans) => ans !== correctAnswer);
+    // const rightAns = allAnswers.filter((ans) => ans === correctAnswer);
+    // setRightAns(rightAns);
+    // console.log("check", wrongAns);
+    // setWrongAns(wrongAns);
     setShowSubmitButton(false);
     setIsAnswerSubmitted(true);
     setAreButtonsDisabled(true);
@@ -323,11 +333,12 @@ function QuizPage({ data }) {
                       isAnswerSubmitted
                         ? selectedAnswer === answer && isAnswerCorrect
                           ? "correct"
-                          : "wrong"
+                          : ""
                         : ""
                     }`}
                     onClick={() => handleAnswerSelect(answer)}
                     disabled={areButtonsDisabled}
+                    data-text={answer}
                   >
                     {answer}
                   </button>
@@ -350,7 +361,7 @@ function QuizPage({ data }) {
                 {showSubmitButton && (
                   <button
                     className={styles.submit__button}
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit()}
                     disabled={
                       !selectedAnswer || areButtonsDisabled || isSubmitClicked
                     }
