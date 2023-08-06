@@ -1,5 +1,7 @@
 import Image from "next/image";
 import PlayIcon from "../../public/media/icon-play.svg";
+import { FaPlayCircle, FaHeart } from "react-icons/fa";
+
 import FavIconInactive from "../../public/media/icon-favourite-inactive.svg";
 import FavIconActive from "../../public/media/icon-favourite-active.svg";
 import styles from "@/styles/SearchResult.module.css";
@@ -11,12 +13,14 @@ import { useFirestore } from "@/hooks/useFirestore";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import LoadingComponent from "./Loading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SearchResult() {
   const { data, isPending, error, fetchData } = useData();
   const { user } = useAuthContext();
-  const { favouriteWord, deleteFavourite, response } =
-    useFirestore("favourites");
+  const { favouriteWord, deleteFavourite } = useFirestore("favourites");
 
   const [favouriteItems, setFavouriteItems] = useState([]);
 
@@ -44,12 +48,10 @@ export default function SearchResult() {
   };
 
   const handleSynonym = async (searchTerm) => {
-    console.log(searchTerm);
     await fetchData(searchTerm);
   };
 
   const handleFavourites = async (data) => {
-    console.log(db);
     const dataKey = data?.[0]?.word;
     const dataName = data?.[0]?.word;
     const uid = user.uid;
@@ -57,6 +59,7 @@ export default function SearchResult() {
     if (dataKey) {
       await favouriteWord(dataKey, dataName, uid);
       setFavouriteItems((prevSearches) => [...new Set(prevSearches), dataKey]);
+      toast.success(`${dataKey} added to favourites`);
     }
   };
 
@@ -66,18 +69,9 @@ export default function SearchResult() {
       setFavouriteItems((prevSearches) =>
         prevSearches.filter((item) => item !== dataKey)
       );
+      toast.success(`${dataKey} removed from favourites`);
     }
   };
-
-  useEffect(() => {
-    console.log(response);
-  }, [response]);
-
-  useEffect(() => {
-    console.log("favs:", favouriteItems, typeof favouriteItems);
-  }, [favouriteItems]);
-
-  console.log(data);
 
   useEffect(() => {
     if (user) {
@@ -100,13 +94,15 @@ export default function SearchResult() {
     }
   }, [user]);
 
-  console.log("Favourite Items from FB", favouriteItems);
+  const isFavorited = favouriteItems.includes(data?.[0]?.word);
   return (
     <div className={`${styles.search__component}`}>
+      <ToastContainer />
       {!data && (
         <h2 className="utility__header">No words searched, search now...</h2>
       )}
       {error && <div>{error}</div>}
+      {isPending && <LoadingComponent />}
       {data && (
         <>
           <div className={styles.Search__results}>
@@ -117,15 +113,35 @@ export default function SearchResult() {
               </div>
               <div className={styles.play__container}>
                 {audio && (
-                  <Image
-                    src={PlayIcon}
-                    width={50}
-                    height={50}
-                    alt="Play Icon"
-                    onClick={handlePlay}
-                  />
+                  <>
+                    <FaPlayCircle
+                      fontSize={50}
+                      fill="#a445ed"
+                      opacity={0.75}
+                      onClick={handlePlay}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </>
                 )}
-                <Image
+                <div>
+                  {isFavorited ? (
+                    <FaHeart
+                      onClick={() => handleDelete(data?.[0]?.word)}
+                      fontSize={30}
+                      fill="#a445ed"
+                      style={{ cursor: "pointer" }}
+                    />
+                  ) : (
+                    <Image
+                      onClick={() => handleFavourites(data)}
+                      src={FavIconInactive}
+                      width={30}
+                      height={30}
+                      alt="Fav Icon"
+                    />
+                  )}
+                </div>
+                {/* <Image
                   onClick={() => {
                     if (favouriteItems.includes(data?.[0]?.word)) {
                       handleDelete(data?.[0]?.word);
@@ -134,14 +150,16 @@ export default function SearchResult() {
                     }
                   }}
                   src={
-                    favouriteItems.includes(data?.[0]?.word)
-                      ? FavIconActive
-                      : FavIconInactive
+                    favouriteItems.includes(data?.[0]?.word) ? (
+                      <FaHeart fontSize={30} fill="#a445ed" />
+                    ) : (
+                      FavIconInactive
+                    )
                   }
                   width={30}
                   height={30}
                   alt="Fav Icon"
-                />
+                /> */}
               </div>
             </div>
             <div className={styles.description}>

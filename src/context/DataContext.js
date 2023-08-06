@@ -9,9 +9,7 @@ export function DataProvider({ children }) {
   const [searches, setSearches] = useState(new Set());
   let controller;
 
-  useEffect(() => {
-    console.log("Set of searches", searches);
-  }, [searches]);
+
 
   const fetchData = async (searchTerm) => {
     if (controller) {
@@ -64,7 +62,7 @@ export function DataProvider({ children }) {
       if (error.name !== "AbortError") {
         setIsPending(false);
         setError(error.message);
-        console.log(error.message);
+        
       }
     }
   };

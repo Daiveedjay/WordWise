@@ -1,11 +1,55 @@
+// import { useEffect, useState } from "react";
+// import { collection, onSnapshot, query, where } from "firebase/firestore";
+// import { orderBy } from "firebase/firestore";
+// import { useAuthContext } from "./useAuthContext";
+// import { db } from "@/firebase/config";
+// export const useCollection = (collectionName) => {
+//   const [documents, setDocuments] = useState(null);
+//   const [error, setError] = useState(null);
+
+//   const { user } = useAuthContext();
+
+//   useEffect(() => {
+//     const q = query(
+//       collection(db, collectionName),
+//       where("uid", "==", user?.uid),
+//       orderBy("timestamp", "desc") // Order by timestamp, newest to oldest
+//     );
+
+//     const unsubscribe = onSnapshot(
+//       q,
+//       (snapshot) => {
+//         const results = snapshot.docs.map((doc) => ({
+//           ...doc.data(),
+//           id: doc.id,
+//         }));
+
+//         setDocuments(results);
+//         setError(null);
+//       },
+//       (error) => {
+
+//         setError("Could not fetch the data");
+//       }
+//     );
+
+//     // Unsubscribe on unmount
+//     return () => unsubscribe();
+//   }, [collectionName, user?.uid]);
+
+//   return { documents, error };
+// };
+
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { orderBy } from "firebase/firestore";
 import { useAuthContext } from "./useAuthContext";
 import { db } from "@/firebase/config";
+
 export const useCollection = (collectionName) => {
   const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(true); // Add the isPending state
 
   const { user } = useAuthContext();
 
@@ -13,7 +57,7 @@ export const useCollection = (collectionName) => {
     const q = query(
       collection(db, collectionName),
       where("uid", "==", user?.uid),
-      orderBy("timestamp", "desc") // Order by timestamp, newest to oldest
+      orderBy("timestamp", "desc")
     );
 
     const unsubscribe = onSnapshot(
@@ -26,16 +70,16 @@ export const useCollection = (collectionName) => {
 
         setDocuments(results);
         setError(null);
+        setIsPending(false); // Set isPending to false after data is fetched
       },
       (error) => {
-        console.log(error);
         setError("Could not fetch the data");
+        setIsPending(false); // Set isPending to false if there's an error
       }
     );
 
-    // Unsubscribe on unmount
     return () => unsubscribe();
   }, [collectionName, user?.uid]);
 
-  return { documents, error };
+  return { documents, error, isPending }; // Include isPending in the returned object
 };

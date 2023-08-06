@@ -14,7 +14,7 @@ export default function HistoryPage() {
   };
 
   const searchesArray = [...searches].reverse();
-  console.log(searchesArray, "current");
+
   return (
     <Layout>
       <div className={styles.utility__component}>

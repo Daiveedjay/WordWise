@@ -2,15 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Dropdown.module.css";
 import { useFont } from "@/hooks/useFont";
 
-// const Dropdown = ({ options, onSelect }) => {
+
 const Dropdown = ({ options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const dropdownRef = useRef(null);
 
-  // const { state, changeFont } = useFont();
+ 
   const { font, changeFont } = useFont();
-  // console.log("Current state", font, "My function", changeFont);
+  
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -37,7 +37,7 @@ const Dropdown = ({ options }) => {
     changeFont(option.value);
   };
 
-  console.log("My state", font);
+ 
 
   return (
     <div className={styles.dropdown} ref={dropdownRef}>

@@ -7,10 +7,11 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import RemoveFavourite from "../../../public/media/icon-heart-break.svg";
 import { useFirestore } from "@/hooks/useFirestore";
+import LoadingComponent from "@/components/Loading";
 
 // import { useAuthContext } from "@/hooks/useAuthContext";
 export default function FavouritesPage() {
-  const { documents, error } = useCollection("favourites");
+  const { documents, error, isPending } = useCollection("favourites");
 
   const { deleteFavourite } = useFirestore("favourites");
   const router = useRouter();
@@ -25,10 +26,13 @@ export default function FavouritesPage() {
   return (
     <Layout>
       <div className={styles.utility__component}>
-        {documents?.length < 0 && (
+        {!isPending && documents?.length < 0 && (
           <h2>You have no favourite words yet, add some now</h2>
         )}
-        {documents?.length > 0 && <h1 className="lead__text">Favourites</h1>}
+        {isPending && <LoadingComponent />}
+        {documents?.length > 0 && !isPending && (
+          <h1 className="lead__text">Favourites</h1>
+        )}
 
         <ul className={styles.utility__results}>
           {documents &&

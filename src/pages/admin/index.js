@@ -86,7 +86,6 @@ export default function AdminPage() {
           setAvatar(svg);
           setFetched(true);
           localStorage.setItem("avatarSVG", svg);
-          console.log(svg);
         }
       };
 

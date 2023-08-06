@@ -15,12 +15,12 @@ import { useFirestore } from "@/hooks/useFirestore";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import LoadingComponent from "@/components/Loading";
 
 export default function DailyWord() {
   const { fetchData } = useData();
   const { user } = useAuthContext();
-  const { favouriteWord, deleteFavourite, response } =
-    useFirestore("favourites");
+  const { favouriteWord, deleteFavourite } = useFirestore("favourites");
   const [favouriteItems, setFavouriteItems] = useState([]);
   const router = useRouter();
   const STORAGE_KEY = "randomWord";
@@ -116,7 +116,6 @@ export default function DailyWord() {
       return "Error fetching definition";
     }
   };
-  useEffect(() => console.log("DW", wordDetails));
 
   const [audioURL, setAudioURL] = useState("");
 
@@ -142,7 +141,6 @@ export default function DailyWord() {
   };
 
   const handleSynonym = async (searchTerm) => {
-    console.log(searchTerm);
     await fetchData(searchTerm);
     router.push("/");
   };
@@ -194,16 +192,17 @@ export default function DailyWord() {
         <h1>Your daily word: {randomWord}</h1>
       </div> */}
       <main className={styles.dailyword__component}>
-        <h1 className={styles.daily__word}>
-          Your daily word is:{" "}
-          <span>
-            {randomWord}{" "}
-            <Image src={StarActive} alt="Star icon" width={15} height={15} />
-          </span>
-        </h1>
+        {!wordDetails && <LoadingComponent />}
+        {wordDetails && (
+          <h1 className={styles.daily__word}>
+            Your daily word is:{" "}
+            <span>
+              {randomWord}{" "}
+              <Image src={StarActive} alt="Star icon" width={15} height={15} />
+            </span>
+          </h1>
+        )}
         <div className={`${styles.search__component}`}>
-          {!wordDetails && <div>Your daily word info is loading</div>}
-
           {wordDetails && (
             <>
               <div className={styles.Search__results}>
@@ -244,7 +243,7 @@ export default function DailyWord() {
                 <div className={styles.description}>
                   <div>
                     <p className={`${styles.speech__name} regular__text `}>
-                      {wordDetails?.meanings[0].partOfSpeech}
+                      {wordDetails?.meanings?.[0].partOfSpeech}
                     </p>
                     <span className={styles.line}></span>
                   </div>

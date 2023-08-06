@@ -202,10 +202,25 @@ li::marker {
 }
 
 .correct {
-  background: #82e0aa !important;
   background: #2ecc71 !important;
 }
 
 .wrong {
   background: var(--error) !important;
+}
+
+#animation-container {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  /* border: 2px solid red; */
+  /* background: rgba(255, 255, 255, 0.2); */
+  /* background: rgba(0, 0, 0, 0.9); */
+  /* filter: blur(20px); */
+  /* background: bl; */
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  backdrop-filter: blur(10px);
 }

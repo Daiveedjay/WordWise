@@ -21,11 +21,18 @@
   outline: 2px solid rgba(164, 69, 237, 0.25);
 }
 
-.search__component img {
+/* .search__component img {
   position: absolute;
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
-  /* border: 2px solid red; */
+  
+} */
+.search__component .search__icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }

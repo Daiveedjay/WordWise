@@ -6,27 +6,27 @@ import PasswordIcon from "../../../public/media/icon-password.svg";
 import UserIcon from "../../../public/media/icon-user.svg";
 import Logo from "../../../public/media/logo.svg";
 
-import { useSignup } from "@/hooks/useSignup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// console.log(googleProvider);
-// console.log(db);
-// console.log(auth);
+import { useSignup } from "@/hooks/useSignup";
 
 import Image from "next/image";
 import { useState } from "react";
-import { useAuthContext } from "@/hooks/useAuthContext";
 import { useRouter } from "next/router";
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import { useGithubSignup } from "@/hooks/useGithubSignup";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function AuthPage() {
+  const { user, authIsReady } = useAuthContext();
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { signup } = useSignup();
-  const { user } = useAuthContext();
+
   const { signInWithGoogle } = useGoogleSignup();
 
   const { signInWithGithub } = useGithubSignup();
@@ -36,15 +36,17 @@ export default function AuthPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword)
-      console.log("Make sure your password fields are the same");
+      toast.error("Make sure your password fields are the same");
     console.log(email, password, confirmPassword);
     await signup(email, password, displayName);
+    toast.success("User signed up successfully");
   };
 
   if (user) router.push("/");
   return (
     <>
-      {!user && (
+      <ToastContainer />
+      {!user && authIsReady && (
         <div className={styles.Auth__page}>
           <div className={styles.Auth__header}>
             <Image src={Logo} alt="Logo icon" width={25} height={25} />

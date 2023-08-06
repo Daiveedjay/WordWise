@@ -162,6 +162,7 @@ import styles from "@/styles/Quiz.module.css";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 function QuizPage({ data }) {
   console.log(data);
@@ -215,6 +216,7 @@ function QuizPage({ data }) {
   }, [selectedAnswer]);
 
   const handleNextQuestion = () => {
+    setAllAnswers([]);
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setIsAnswerSubmitted(false);
@@ -227,17 +229,25 @@ function QuizPage({ data }) {
     setSelectedAnswer(null);
   };
 
-  const [wrongAns, setWrongAns] = useState([]);
-  const [rightAns, setRightAns] = useState([]);
+  // const [wrongAns, setWrongAns] = useState([]);
+  // const [rightAns, setRightAns] = useState([]);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   const handleSubmit = () => {
     console.log(allAnswers);
-    const wrongAns = allAnswers.filter((ans) => ans !== correctAnswer);
-    const rightAns = allAnswers.filter((ans) => ans === correctAnswer);
-    setRightAns(rightAns);
-    console.log("check", wrongAns);
-    setWrongAns(wrongAns);
+    // const wrongAns = allAnswers.filter((ans) => ans !== correctAnswer);
+    // const rightAns = allAnswers.filter((ans) => ans === correctAnswer);
+    // setRightAns(rightAns);
+    // console.log("check", wrongAns);
+    // setWrongAns(wrongAns);
+    allAnswers.forEach((answer) => {
+      if (answer === correctAnswer) {
+        const buttonElement = document.querySelector(`[data-text="${answer}"]`);
+        buttonElement.classList.remove("wrong");
+        buttonElement.classList.add("correct");
+        console.log("----- The found button------", buttonElement);
+      }
+    });
     setShowSubmitButton(false);
     setIsAnswerSubmitted(true);
     setAreButtonsDisabled(true);
@@ -248,16 +258,12 @@ function QuizPage({ data }) {
       setCorrectAnswersCount((prevCount) => prevCount + 1);
     } else {
       setIsAnswerCorrect(false);
-      toast.error("Incorrect answer. Try again.");
+      toast.error("Incorrect answer.");
     }
   };
-  useEffect(() => console.log("check 2", wrongAns), [wrongAns]);
 
   console.log("Length", currentQuestion, questions.length);
-  // const handleRestart = () => {
-  //   setCurrentQuestion(0);
-  //   setQuizCompleted(false);
-  // };
+
   const handleRestart = () => {
     setCurrentQuestion(0);
     setSelectedAnswer(null);
@@ -268,30 +274,12 @@ function QuizPage({ data }) {
     setAreButtonsDisabled(false);
     setIsSubmitClicked(false);
     setQuizCompleted(false);
-    setWrongAns([]);
-    setRightAns([]);
+
     setCorrectAnswersCount(0);
   };
 
-  const generateNewQuiz = () => {
-    const newQuestions = shuffleQuestions(data.slice(0, 10)); // Generate new shuffled questions
-    setCurrentQuestion(0); // Start from the first question
-    newQuestions(newQuestions); // Update the questions state with new questions
-    setSelectedAnswer(null);
-    setShowSubmitButton(false);
-    setIsAnswerSubmitted(false);
-    setIsAnswerCorrect(false);
-    setAreButtonsDisabled(false);
-    setIsSubmitClicked(false);
-    setWrongAns([]);
-    setRightAns([]);
-    setCorrectAnswersCount(0);
-    setQuizCompleted(false);
-  };
-
-  useEffect(() => {
-    console.log("current que", currentQuestion);
-  }, [currentQuestion]);
+  const { user, authIsReady } = useAuthContext();
+  console.log("Auth--------", authIsReady);
 
   return (
     <Layout title={"Quiz"}>
@@ -323,11 +311,12 @@ function QuizPage({ data }) {
                       isAnswerSubmitted
                         ? selectedAnswer === answer && isAnswerCorrect
                           ? "correct"
-                          : "wrong"
+                          : ""
                         : ""
                     }`}
                     onClick={() => handleAnswerSelect(answer)}
                     disabled={areButtonsDisabled}
+                    data-text={answer}
                   >
                     {answer}
                   </button>
@@ -350,7 +339,7 @@ function QuizPage({ data }) {
                 {showSubmitButton && (
                   <button
                     className={styles.submit__button}
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit()}
                     disabled={
                       !selectedAnswer || areButtonsDisabled || isSubmitClicked
                     }
@@ -376,16 +365,20 @@ function QuizPage({ data }) {
           </div>
         ) : (
           <div className={styles.quiz__result}>
-            <h2>Congratulations! You have completed the quiz.</h2>
-            <p>
-              You answered {correctAnswersCount} out of {questions.length}{" "}
+            <h2 className="utility__header">
+              Congratulations! You have completed the quiz.
+            </h2>
+            <p className="small__text">
+              You answered <span>{correctAnswersCount} </span>out of{" "}
+              <span>{questions.length} </span>
               questions correctly.
             </p>
-            <p>
-              Percentage pass: {(correctAnswersCount / questions.length) * 100}%
+            <p className="small__text">
+              Percentage pass:{" "}
+              <span>{(correctAnswersCount / questions.length) * 100}%</span>
             </p>
             <button onClick={handleRestart} className={styles.restart__quiz}>
-              Restart Quiz
+              Take another quiz
             </button>
           </div>
         )}

@@ -13,28 +13,45 @@ import UserIconActive from "../../public/media/icon-person-active.svg";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  FaHeart,
+  FaBook,
+  FaHistory,
+  FaUser,
+  FaQuestionCircle,
+} from "react-icons/fa";
 
 const navArray = [
   {
     name: "Favourites",
-    icon: FavIcon,
+    icon: <FaHeart fontSize={25} fill="#9c9c9c" />,
     route: "/favourites",
-    active: FavIconActive,
+    active: <FaHeart fill="#a445ed" fontSize={25} />,
   },
   {
     name: "Daily Word",
-    icon: DailyIcon,
+    icon: <FaBook fontSize={25} fill="#9c9c9c" />,
     route: "/dailyword",
-    active: DailyIconActive,
+    active: <FaBook fill="#a445ed" fontSize={25} />,
   },
-  { name: "Quiz", icon: QuizIcon, route: "/quiz", active: QuizIconActive },
+  {
+    name: "Quiz",
+    icon: <FaQuestionCircle fontSize={25} fill="#9c9c9c" />,
+    route: "/quiz",
+    active: <FaQuestionCircle fill="#a445ed" fontSize={25} />,
+  },
   {
     name: "History",
-    icon: HistoryIcon,
+    icon: <FaHistory fontSize={25} fill="#9c9c9c" />,
     route: "/history",
-    active: HistoryIconActive,
+    active: <FaQuestionCircle fill="#a445ed" fontSize={25} />,
   },
-  { name: "Admin", icon: UserIcon, route: "/admin", active: UserIconActive },
+  {
+    name: "Admin",
+    icon: <FaUser fontSize={25} fill="#9c9c9c" />,
+    route: "/admin",
+    active: <FaHistory fontSize={25} fill="#a445ed" />,
+  },
 ];
 
 export default function Sidebar() {
@@ -49,7 +66,21 @@ export default function Sidebar() {
             key={navItem.name}
             className={`${currentPath === navItem.route ? styles.active : ""}`}
           >
-            <Image
+            {currentPath === navItem.route ? (
+              <div className={styles.nav__icon}>
+                {navItem.active} {/* Render active icon */}
+              </div>
+            ) : (
+              <div className={styles.nav__icon}>
+                {navItem.icon} {/* Render default icon */}
+              </div>
+            )}
+            {/* <div className={styles.nav__icon}>
+              {navItem.icon}
+            </div> */}
+            {/* <DailyIcon /> */}
+            {/* <navItem.icon /> */}
+            {/* <Image
               key={navItem.name}
               src={
                 currentPath === navItem.route ? navItem.active : navItem.icon
@@ -59,7 +90,7 @@ export default function Sidebar() {
               width={25}
               height={25}
               className={styles.nav__icon}
-            />
+            /> */}
           </Link>
         ))}
       </div>

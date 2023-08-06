@@ -26,4 +26,5 @@
   box-shadow: -3px -5px 5px var(--light-box-shadow);
   /* overflow: hidden; */
   border-top-left-radius: 10px;
+  position: relative;
 }

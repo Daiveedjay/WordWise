@@ -90,7 +90,8 @@
   /* border: 2px solid red; */
 }
 
-.action__buttons button {
+.action__buttons button,
+.restart__quiz {
   all: unset;
   padding: 1rem 2rem;
   border-radius: 5px;
@@ -119,4 +120,20 @@
 .action__buttons .restart__quiz {
   color: #fff;
   background: var(--error);
+}
+
+.quiz__result {
+  /* border: 2px solid red; */
+  height: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  padding: 4rem;
+  row-gap: 2rem;
+}
+
+.quiz__result span {
+  color: var(--primary-color);
+  font-weight: 600;
 }

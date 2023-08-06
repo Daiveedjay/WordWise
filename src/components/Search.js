@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { useState } from "react";
-import SearchIcon from "../../public/media/icon-search.svg";
 import styles from "@/styles/Search.module.css";
 import { useData } from "@/context/DataContext";
+import { FaSearch } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,22 +13,33 @@ export default function Search() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetchData(searchTerm);
-    setSearchTerm("");
+    // e.preventDefault();
+    // await fetchData(searchTerm);
+    // setSearchTerm("");
+    // Check if the search term is not empty
+    if (searchTerm.trim() !== "") {
+      await fetchData(searchTerm);
+      setSearchTerm("");
+    } else {
+      // Show a message or take some other action to handle empty search term
+      toast.error("Search term is empty. Please enter a valid term.");
+    }
   };
   return (
     <>
+      <ToastContainer />
       <form onSubmit={handleSubmit} className={styles.search__component}>
         <input
           type="text"
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
         />
-        <Image
-          src={SearchIcon}
-          width={15}
-          height={15}
-          alt="Search Icon"
+
+        <FaSearch
+          fontWeight={400}
+          fill="#a445ed"
+          fontSize={15}
+          className={styles.search__icon}
           onClick={handleSubmit}
         />
       </form>
