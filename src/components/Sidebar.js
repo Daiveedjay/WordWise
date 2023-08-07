@@ -24,7 +24,7 @@ import {
 const navArray = [
   {
     name: "Favourites",
-    icon: <FaHeart fontSize={25} fill="#9c9c9c" />,
+    icon: <FaHeart fontSize={25} fill="#9c9c9c" strokeWidth={5} />,
     route: "/favourites",
     active: <FaHeart fill="#a445ed" fontSize={25} />,
   },
