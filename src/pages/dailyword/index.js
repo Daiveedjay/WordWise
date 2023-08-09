@@ -2,8 +2,7 @@ import styles from "@/styles/SearchResult.module.css";
 import PlayIcon from "../../../public/media/icon-play.svg";
 
 import FavIconInactive from "../../../public/media/icon-favourite-inactive.svg";
-import FavIconActive from "../../../public/media/icon-favourite-active.svg";
-import StarActive from "../../../public/media/icon-star-gold.svg";
+
 import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -16,6 +15,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import LoadingComponent from "@/components/Loading";
+import { FaHeart, FaStar, FaPlayCircle } from "react-icons/fa";
 
 export default function DailyWord() {
   const { fetchData } = useData();
@@ -197,8 +197,7 @@ export default function DailyWord() {
           <h1 className={styles.daily__word}>
             Your daily word is:{" "}
             <span>
-              {randomWord}{" "}
-              <Image src={StarActive} alt="Star icon" width={15} height={15} />
+              {randomWord} <FaStar fontSize={15} color="#F1C40F" />
             </span>
           </h1>
         )}
@@ -213,31 +212,32 @@ export default function DailyWord() {
                   </div>
                   <div className={styles.play__container}>
                     {audio && (
-                      <Image
+                      <FaPlayCircle
+                        fontSize={25}
+                        fill="#a445ed"
+                        opacity={0.75}
+                        style={{ cursor: "pointer" }}
                         onClick={handlePlay}
-                        src={PlayIcon}
-                        width={50}
-                        height={50}
-                        alt="Play Icon"
                       />
                     )}
-                    <Image
-                      onClick={() => {
-                        if (favouriteItems.includes(wordDetails?.word)) {
-                          handleDelete(wordDetails?.word);
-                        } else {
-                          handleFavourites(wordDetails);
-                        }
-                      }}
-                      src={
-                        favouriteItems.includes(wordDetails?.word)
-                          ? FavIconActive
-                          : FavIconInactive
-                      }
-                      width={30}
-                      height={30}
-                      alt="Fav Icon"
-                    />
+
+                    {favouriteItems.includes(wordDetails?.word) ? (
+                      <FaHeart
+                        fill="#a445ed"
+                        onClick={() => handleDelete(wordDetails?.word)}
+                        style={{ cursor: "pointer", width: 30, height: 30 }}
+                        alt="Fav Icon"
+                      />
+                    ) : (
+                      <Image
+                        src={FavIconInactive}
+                        width={30}
+                        height={30}
+                        alt="Fav Icon"
+                        onClick={() => handleFavourites(wordDetails)}
+                        style={{ cursor: "pointer", width: 30, height: 30 }}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className={styles.description}>

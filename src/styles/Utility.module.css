@@ -62,8 +62,16 @@
   border: 2px solid blue;
 } */
 
-.utility__results li img {
+.utility__results li .delete__icon,
+.utility__results li .search__icon {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+}
+
+.utility__results li .delete__icon {
+  right: 10px;
+}
+
+.utility__results li .search__icon {
+  left: 10px;
 }

@@ -71,6 +71,9 @@
   border-radius: 50%;
   background: #c4c4c4;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image__saver {
@@ -82,22 +85,21 @@
   border-radius: 50%;
   background: #c4c4c4;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.image__changer img,
-.image__saver img {
-  scale: 0.5;
+.image__changer .icon__change,
+.image__saver .icon__save {
+  scale: 0.8;
 }
 
 .user__details {
   display: flex;
   flex-direction: column;
   padding: 0 2rem;
-  /* padding: 0 1.5rem; */
-  /* padding-top: 3rem; */
-  /* justify-content: censter; */
-  /* align-items: center; */
-  /* border: 2px solid red; */
+
   height: 100%;
   gap: 1rem;
   color: var(--text-dark);

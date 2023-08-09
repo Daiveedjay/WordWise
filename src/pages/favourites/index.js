@@ -4,10 +4,11 @@ import { useData } from "@/context/DataContext";
 
 import styles from "@/styles/Utility.module.css";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import RemoveFavourite from "../../../public/media/icon-heart-break.svg";
+
 import { useFirestore } from "@/hooks/useFirestore";
 import LoadingComponent from "@/components/Loading";
+
+import { FaTrash, FaSearch } from "react-icons/fa";
 
 // import { useAuthContext } from "@/hooks/useAuthContext";
 export default function FavouritesPage() {
@@ -42,14 +43,25 @@ export default function FavouritesPage() {
                   // onClick={() => handleClick(doc.dataName)}
                   className="regular__text"
                 >
-                  <Image
+                  <FaSearch
+                    className={styles.search__icon}
+                    fontSize={20}
+                    fill="#9c9c9c"
+                    onClick={() => handleClick(doc.dataName)}
+                  />
+                  <FaTrash
+                    fontSize={20}
+                    fill="#9c9c9c"
+                    onClick={() => deleteFavourite(doc.dataKey)}
+                    className={styles.delete__icon}
+                  />
+                  {/* <Image
                     title="Remove Bookmark"
                     src={RemoveFavourite}
                     width={25}
                     height={25}
                     alt="Market Favourite Icon"
-                    onClick={() => deleteFavourite(doc.dataKey)}
-                  />
+                  /> */}
                   {doc.dataName}
                 </li>
               </div>

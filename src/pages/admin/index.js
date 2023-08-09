@@ -1,19 +1,18 @@
 import Layout from "@/components/Layout";
 import styles from "@/styles/Admin.module.css";
 import Image from "next/image";
-
-import ChangeIcon from "../../../public/media/icon-change.svg";
-import SaveIcon from "../../../public/media/icon-save.svg";
-
-import StarIcon from "../../../public/media/icon-star.svg";
-import GlassesIcon from "../../../public/media/icon-star.svg";
 import { useRouter } from "next/router";
 
 import { useLogout } from "@/hooks/useLogout";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useEffect, useMemo, useState } from "react";
 
+import { FaStar, FaTools, FaSave } from "react-icons/fa";
+import { useQuizContext } from "@/context/QuizContext";
+
 export default function AdminPage() {
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
   const [fetched, setFetched] = useState(false);
@@ -105,7 +104,7 @@ export default function AdminPage() {
       // Remove the previous SVG data from localStorage
 
       // Store the new SVG data in localStorage
-      localStorage.setItem("avatarSVG", svg);
+      // localStorage.setItem("avatarSVG", svg);
     }
     setShowChangeIcon(true);
   };
@@ -117,8 +116,13 @@ export default function AdminPage() {
     localStorage.setItem("avatarSVG", avatar);
   };
 
-  const { logout } = useLogout();
-  const { user } = useAuthContext();
+  const {
+    correctAnswersCount,
+    setCorrectAnswersCount,
+    questionsAttemptedCount,
+    setQuestionsAttemptedCount,
+  } = useQuizContext();
+
   return (
     <Layout>
       <div className={styles.Admin__container}>
@@ -137,46 +141,49 @@ export default function AdminPage() {
               </div>
 
               <div className={styles.image__changer}>
-                <Image
+                <FaTools
+                  fill="#a445ed"
+                  className={styles.icon__change}
+                  fontSize={15}
                   onClick={handleAvatarChange}
-                  src={ChangeIcon}
-                  alt="Change Profile Icon"
-                  width={20}
-                  height={20}
                 />
               </div>
 
               {showChangeIcon && (
                 <div className={styles.image__saver}>
-                  <Image
+                  <FaSave
+                    fill="#a445ed"
+                    className={styles.icon__save}
+                    fontSize={15}
                     onClick={handleSave}
-                    src={SaveIcon}
-                    alt="Save Profile Icon"
-                    width={20}
-                    height={20}
                   />
                 </div>
               )}
             </div>
             <div className={styles.user__details}>
               <h2>{user?.displayName}</h2>
-
               <p>
-                <Image src={StarIcon} alt="Star Icon" width={15} height={15} />
-                Total Points: 32
+                <FaStar fill="#F1C40F" fontSize={15} />
+                Total Points:{" "}
+                {+questionsAttemptedCount > 0
+                  ? +correctAnswersCount
+                  : "No points board yet"}
               </p>
               <p>
-                <Image src={StarIcon} alt="Star Icon" width={15} height={15} />
-                Test Overall : 32/60
+                <FaStar fill="#F1C40F" fontSize={15} />
+                Test Overall :{" "}
+                {+questionsAttemptedCount > 0
+                  ? `${+correctAnswersCount}/${+questionsAttemptedCount}`
+                  : "No overall yet"}
               </p>
               <p>
-                <Image
-                  src={GlassesIcon}
-                  alt="Glasses Icon"
-                  width={15}
-                  height={15}
-                />
-                Test Percentage: 56%
+                <FaStar fill="#F1C40F" fontSize={15} />
+                Test Percentage:
+                {+questionsAttemptedCount > 0
+                  ? ` ${Math.floor(
+                      (+correctAnswersCount / +questionsAttemptedCount) * 100
+                    )}%`
+                  : " No percentage yet..."}
               </p>
 
               <button

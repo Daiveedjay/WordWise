@@ -44,13 +44,13 @@ const navArray = [
     name: "History",
     icon: <FaHistory fontSize={25} fill="#9c9c9c" />,
     route: "/history",
-    active: <FaQuestionCircle fill="#a445ed" fontSize={25} />,
+    active: <FaHistory fill="#a445ed" fontSize={25} />,
   },
   {
     name: "Admin",
     icon: <FaUser fontSize={25} fill="#9c9c9c" />,
     route: "/admin",
-    active: <FaHistory fontSize={25} fill="#a445ed" />,
+    active: <FaUser fontSize={25} fill="#a445ed" />,
   },
 ];
 
