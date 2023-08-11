@@ -11,18 +11,17 @@ import { useEffect } from "react";
 export default function Layout({ title, keywords, description, children }) {
   const { mode } = useTheme();
   const { font } = useFont();
-  const { user } = useAuthContext();
+  const { user, authIsReady } = useAuthContext();
   const router = useRouter();
   useEffect(() => {
     // Check if there's a user; if not, redirect to the /auth page
-    if (!user) {
-      // You can customize the route for authentication, e.g., /auth or /login
+    if (!user && authIsReady) {
       router.push("/auth");
     }
-  }, [user, router]);
+  }, [user, router, authIsReady]);
   return (
     <>
-      {user && (
+      {
         <div className={`${styles.Layout__container} ${mode} ${font}`}>
           <Head>
             <title>{title}</title>
@@ -39,7 +38,7 @@ export default function Layout({ title, keywords, description, children }) {
             </div>
           </main>
         </div>
-      )}
+      }
     </>
   );
 }

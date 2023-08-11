@@ -232,6 +232,10 @@ li::marker {
     display: none;
   }
 
+  .lead__text {
+    font-size: 3rem;
+  }
+
   .utility__header {
     font-size: 1.75rem;
   }

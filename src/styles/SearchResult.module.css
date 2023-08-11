@@ -222,3 +222,36 @@
     padding: 0 2rem;
   }
 }
+
+/* Under 550px */
+@media screen and (max-width: 34.375em) {
+  .Search__results {
+    padding: 0 1rem;
+  }
+  .daily__word {
+    text-align: left;
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lead__container h1 {
+    line-height: 4rem;
+  }
+  .play__container {
+    gap: 1.5rem;
+  }
+  .action__icon {
+    font-size: 3rem;
+  }
+
+  .phonetic {
+    font-size: 1.75rem;
+  }
+}
+
+/* */
+
+/* Under 375px */
+@media screen and (max-width: 23.4375em) {
+}

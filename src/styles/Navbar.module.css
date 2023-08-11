@@ -113,3 +113,10 @@
     gap: 2rem;
   }
 }
+
+/* Under 375px */
+@media screen and (max-width: 23.4375em) {
+  .nav__component {
+    padding: 1rem;
+  }
+}
