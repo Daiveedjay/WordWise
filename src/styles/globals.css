@@ -211,16 +211,28 @@ li::marker {
 
 #animation-container {
   position: absolute;
-
   top: 0;
   left: 0;
-  /* border: 2px solid red; */
-  /* background: rgba(255, 255, 255, 0.2); */
-  /* background: rgba(0, 0, 0, 0.9); */
-  /* filter: blur(20px); */
-  /* background: bl; */
-  width: 95%;
+  margin: 0 auto;
+  width: 100%;
   height: 95%;
   z-index: 5;
-  backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */
+}
+
+/* Under 800px */
+@media screen and (max-width: 50em) {
+  .tablet__hide {
+    display: none;
+  }
+}
+/* Under 550px */
+@media screen and (max-width: 34.375em) {
+  .mobile__hide {
+    display: none;
+  }
+
+  .utility__header {
+    font-size: 1.75rem;
+  }
 }

@@ -7,9 +7,9 @@ import { useRouter } from "next/router";
 
 import { useFirestore } from "@/hooks/useFirestore";
 import LoadingComponent from "@/components/Loading";
-
+import LoadingAnimation from "../../../public/media/Loading_animation.json";
 import { FaTrash, FaSearch } from "react-icons/fa";
-
+import BaseAnimation from "../../../public/media/Walking_pencil.json";
 // import { useAuthContext } from "@/hooks/useAuthContext";
 export default function FavouritesPage() {
   const { documents, error, isPending } = useCollection("favourites");
@@ -27,10 +27,22 @@ export default function FavouritesPage() {
   return (
     <Layout>
       <div className={styles.utility__component}>
-        {!isPending && documents?.length < 0 && (
-          <h2>You have no favourite words yet, add some now</h2>
+        {!isPending && documents?.length <= 0 && (
+          <>
+            <h2
+              style={{
+                zIndex: 20,
+                margin: "auto",
+                position: "relative",
+                textAlign: "center",
+              }}
+            >
+              You have no favourite words yet, add some now
+            </h2>
+            <LoadingComponent LoadingAnimation={BaseAnimation} />
+          </>
         )}
-        {isPending && <LoadingComponent />}
+        {isPending && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
         {documents?.length > 0 && !isPending && (
           <h1 className="lead__text">Favourites</h1>
         )}

@@ -1,0 +1,17 @@
+## getRandomWordFromAPI
+
+This fetches a random word from an api.
+
+It then passes that random word into another API that gets data (definations, synonyms etc) about that random word
+
+## updateRandomWord
+
+Is responsible for re-fireing "getRandomWordFromAPI" every 24hrs so that an new word comes evry 24hrs
+
+## getWordDefinition
+
+This function is responsible for taking in the random word and returning the data about the random word
+
+## fetchWordDefinition
+
+This function uses a useEffect to fire "getWordDefinition"

@@ -2,15 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Dropdown.module.css";
 import { useFont } from "@/hooks/useFont";
 
-
 const Dropdown = ({ options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const dropdownRef = useRef(null);
 
- 
   const { font, changeFont } = useFont();
-  
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -37,10 +34,8 @@ const Dropdown = ({ options }) => {
     changeFont(option.value);
   };
 
- 
-
   return (
-    <div className={styles.dropdown} ref={dropdownRef}>
+    <div className={`${styles.dropdown} tablet__hide`} ref={dropdownRef}>
       <p className={styles.dropdown__toggle} onClick={handleToggle}>
         {selectedOption.label}
       </p>

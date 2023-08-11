@@ -13,15 +13,16 @@ export default function Search() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // e.preventDefault();
-    // await fetchData(searchTerm);
-    // setSearchTerm("");
-    // Check if the search term is not empty
+
     if (searchTerm.trim() !== "") {
       await fetchData(searchTerm);
       setSearchTerm("");
+
+      // Check if data is empty (no results)
+      if (error) {
+        toast.error("No results found for the search term.");
+      }
     } else {
-      // Show a message or take some other action to handle empty search term
       toast.error("Search term is empty. Please enter a valid term.");
     }
   };
@@ -43,8 +44,6 @@ export default function Search() {
           onClick={handleSubmit}
         />
       </form>
-      {isPending && <div>Loading</div>}
-      {data && <div>Data has arrived</div>}
     </>
   );
 }

@@ -1,11 +1,14 @@
 import styles from "@/styles/Auth.module.css";
 import GoogleIcon from "../../../public/media/icon-google.svg";
-import GithubIcon from "../../../public/media/icon-github.svg";
-import MailIcon from "../../../public/media/icon-mail.svg";
-import PasswordIcon from "../../../public/media/icon-password.svg";
-import UserIcon from "../../../public/media/icon-user.svg";
 import Logo from "../../../public/media/logo.svg";
-
+import {
+  FaGithub,
+  FaLock,
+  FaUser,
+  FaEnvelope,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,6 +20,8 @@ import { useRouter } from "next/router";
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import { useGithubSignup } from "@/hooks/useGithubSignup";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import LoadingComponent from "@/components/Loading";
+import LoadingAnimation from "../../../public/media/Loading_animation.json";
 
 export default function AuthPage() {
   const { user, authIsReady } = useAuthContext();
@@ -24,6 +29,7 @@ export default function AuthPage() {
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { signup } = useSignup();
 
@@ -39,13 +45,20 @@ export default function AuthPage() {
       toast.error("Make sure your password fields are the same");
     console.log(email, password, confirmPassword);
     await signup(email, password, displayName);
-    toast.success("User signed up successfully");
+    toast.success("You signed up successfully");
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const EyeIcon = showPassword ? FaEyeSlash : FaEye;
 
   if (user) router.push("/");
   return (
     <>
       <ToastContainer />
+      {!authIsReady && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
       {!user && authIsReady && (
         <div className={styles.Auth__page}>
           <div className={styles.Auth__header}>
@@ -56,11 +69,10 @@ export default function AuthPage() {
           <div className={styles.Auth__component}>
             <form onSubmit={handleSubmit} className={styles.Auth__form}>
               <div>
-                <Image
-                  src={MailIcon}
-                  width={15}
-                  height={15}
-                  alt="password icon"
+                <FaEnvelope
+                  className={styles.input__icon}
+                  fill="#9c9c9c"
+                  fontSize={15}
                 />
                 <input
                   type="email"
@@ -72,7 +84,11 @@ export default function AuthPage() {
                 />
               </div>
               <div>
-                <Image src={UserIcon} width={15} height={15} alt="user icon" />
+                <FaUser
+                  fill="#9c9c9c"
+                  className={styles.input__icon}
+                  fontSize={15}
+                />
                 <input
                   type="text"
                   placeholder="Enter your Username"
@@ -82,36 +98,46 @@ export default function AuthPage() {
                 />
               </div>
               <div>
-                <Image
-                  src={PasswordIcon}
-                  width={15}
-                  height={15}
-                  alt="password icon"
+                <FaLock
+                  fill="#9c9c9c"
+                  className={styles.input__icon}
+                  fontSize={15}
                 />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   aria-required
                 />
+                <EyeIcon
+                  className={styles.toggle__password}
+                  fill="#9c9c9c"
+                  fontSize={15}
+                  onClick={togglePasswordVisibility}
+                />
               </div>
               <div>
-                <Image
-                  src={PasswordIcon}
-                  width={15}
-                  height={15}
-                  alt="password icon"
+                <FaLock
+                  fill="#9c9c9c"
+                  className={styles.input__icon}
+                  fontSize={15}
                 />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Confirm your password abeg, e get why"
                   aria-required
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   value={confirmPassword}
                 />
+                <EyeIcon
+                  className={styles.toggle__password}
+                  fill="#9c9c9c"
+                  fontSize={15}
+                  onClick={togglePasswordVisibility}
+                />
               </div>
-              <button type="submit">Login</button>
+              <button type="submit">Sign Up</button>
             </form>
             <p className={styles.Auth__divider}>OR</p>
             <div className={styles.Auth__actions}>
@@ -125,12 +151,7 @@ export default function AuthPage() {
                 <span>Continue with Google</span>
               </div>
               <div onClick={signInWithGithub}>
-                <Image
-                  src={GithubIcon}
-                  width={20}
-                  height={20}
-                  alt="Github Icon"
-                />
+                <FaGithub fontSize={20} />
                 <span>Continue with Github</span>
               </div>
             </div>

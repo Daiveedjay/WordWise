@@ -52,10 +52,10 @@ export default function Navbar() {
         <Image src={Logo} alt="Logo img" width={30} height={30} />
       </Link>
       <Search />
-      {/* <Dropdown options={options} onSelect={handleSelect} /> */}
+
       <Dropdown options={options} />
 
-      <div className={themeSwitcherClassName}>
+      <div className={`${themeSwitcherClassName} mobile__hide`}>
         <input
           ref={themeToggle}
           onChange={handleToggle}

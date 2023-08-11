@@ -1,33 +1,27 @@
 .search__component {
   display: flex;
-  padding-right: 4rem;
-  /* padding: 0 2rem; */
-  gap: 2rem;
   color: var(--text-dark);
-  /* position: relative; */
 }
 
 .search__component h2 {
   padding: 0 2rem;
 }
 .Search__results {
-  padding: 1rem 4rem;
+  padding: 1rem 5rem;
+  height: 100%;
 
-  max-height: 425px;
-  overflow-y: scroll;
   border-radius: 10px;
   box-shadow: 3px 5px 5px var(--light-box-shadow);
-  /* width: min(100%, 850px); */
-  flex: 2.75;
+  width: 100%;
 }
 
 .Search__results .title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /*  */
   margin-bottom: 20px;
 }
+
 .lead__container h1 {
   line-height: 8rem;
 }
@@ -37,25 +31,15 @@
   color: var(--primary-color);
 }
 
-/* .description {
-  border: 2px solid purple;
-} */
-
 .description div:first-child {
-  /* border: 2px solid purple; */
   display: flex;
   align-items: center;
   gap: 20px;
   margin-bottom: 20px;
 }
 
-/* .speech__name {
-  
-} */
-
 .line {
   flex: 1;
-  /* border: 2px solid green; */
   position: relative;
   color: transparent;
 }
@@ -68,8 +52,6 @@
   width: 100%;
   height: 1px;
   background-color: #c2c2c2;
-  /* z-index: 0; */
-  /* background-color: red; */
 }
 
 .play__container {
@@ -82,15 +64,6 @@
   cursor: pointer;
 }
 
-/* .play__container img:last-child {
-} */
-
-/* 
-
-
-/* .meaning {
-  border: 2px solid green;
-} */
 .meaning ul li {
   margin: 1rem 3rem;
 }
@@ -101,7 +74,6 @@
   align-items: center;
   gap: 3rem;
   flex-wrap: wrap;
-  /* border: 2px solid red; */
 }
 
 .synonyms span {
@@ -241,4 +213,12 @@
   /* background: red; */
   width: 100%;
   height: 100%;
+}
+
+/* Under 800px */
+@media screen and (max-width: 50em) {
+  .Search__results {
+    /* padding: 0 1rem 0 2rem; */
+    padding: 0 2rem;
+  }
 }

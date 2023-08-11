@@ -14,6 +14,10 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import LoadingComponent from "./Loading";
+
+import LoadingAnimation from "../../public/media/Loading_animation.json";
+import BaseAnimation from "../../public/media/Walking_pencil.json";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -99,10 +103,18 @@ export default function SearchResult() {
     <div className={`${styles.search__component}`}>
       <ToastContainer />
       {!data && (
-        <h2 className="utility__header">No words searched, search now...</h2>
+        <>
+          <h2
+            style={{ zIndex: 20, margin: "auto" }}
+            className="utility__header"
+          >
+            No words searched, search now...
+          </h2>
+          <LoadingComponent LoadingAnimation={BaseAnimation} />
+        </>
       )}
-      {error && <div>{error}</div>}
-      {isPending && <LoadingComponent />}
+
+      {isPending && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
       {data && (
         <>
           <div className={styles.Search__results}>

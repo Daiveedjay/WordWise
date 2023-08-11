@@ -31,7 +31,13 @@ export default function Layout({ title, keywords, description, children }) {
           </Head>
           <Navbar />
           <Sidebar />
-          <main className={`${styles.main__section} `}>{children}</main>
+          <main className={`${styles.main__section} `}>
+            {children}
+            <div className={styles.shaper__wrapper}>
+              <div className={styles.shape}> </div>
+              <div className={styles.second__shape}></div>
+            </div>
+          </main>
         </div>
       )}
     </>

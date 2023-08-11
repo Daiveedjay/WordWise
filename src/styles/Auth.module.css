@@ -38,11 +38,19 @@
   position: relative;
 }
 
-.Auth__form div img {
+.Auth__form div .input__icon {
   position: absolute;
   top: 50%;
   left: 7.5px;
   transform: translateY(-50%);
+}
+
+.toggle__password {
+  position: absolute;
+  top: 50%;
+  right: 7.5px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .Auth__form input::placeholder {

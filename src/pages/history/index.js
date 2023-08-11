@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
+import LoadingComponent from "@/components/Loading";
 import { useData } from "@/context/DataContext";
-
+import BaseAnimation from "../../../public/media/Walking_pencil.json";
 import styles from "@/styles/Utility.module.css";
 import { useRouter } from "next/router";
 
@@ -19,10 +20,22 @@ export default function HistoryPage() {
     <Layout>
       <div className={styles.utility__component}>
         {searchesArray.length === 0 && (
-          <h2 className="utility__header">
-            You have no history in your current session to show
-          </h2>
+          <>
+            <h2
+              style={{
+                zIndex: 20,
+                margin: "auto",
+                position: "relative",
+                textAlign: "center",
+              }}
+              className="utility__header"
+            >
+              No words searched, search now...
+            </h2>
+            <LoadingComponent LoadingAnimation={BaseAnimation} />
+          </>
         )}
+
         {searchesArray.length > 0 && <h1 className="lead__text">History</h1>}
 
         <ul className={styles.utility__results}>

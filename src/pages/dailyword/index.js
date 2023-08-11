@@ -1,10 +1,8 @@
 import styles from "@/styles/SearchResult.module.css";
-import PlayIcon from "../../../public/media/icon-play.svg";
-
 import FavIconInactive from "../../../public/media/icon-favourite-inactive.svg";
 
 import Layout from "@/components/Layout";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useData } from "@/context/DataContext";
@@ -15,6 +13,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import LoadingComponent from "@/components/Loading";
+import LoadingAnimation from "../../../public/media/Loading_animation.json";
 import { FaHeart, FaStar, FaPlayCircle } from "react-icons/fa";
 
 export default function DailyWord() {
@@ -26,6 +25,21 @@ export default function DailyWord() {
   const STORAGE_KEY = "randomWord";
   const API_URL = "https://api.api-ninjas.com/v1/randomword";
   const API_KEY = "ibyuAqQFkdh6QBsOlAD8aQ==uJuhnESr2akR4FH1";
+
+  const predefinedBackupWords = useMemo(() => {
+    [
+      "sinusoidal",
+      "enumerate",
+      "liquify",
+      "Anachronism",
+      "Draconian",
+      "Pareidolia",
+      "Serendipity",
+      "Verisimilitude",
+      "sarcophagus",
+      "Cacophony",
+    ];
+  }, []);
 
   const [randomWord, setRandomWord] = useState("");
 
@@ -50,6 +64,14 @@ export default function DailyWord() {
     const updateRandomWord = async () => {
       const newWord = await getRandomWordFromAPI();
       if (newWord) {
+        const definitionFound = await getWordDefinition(newWord);
+        if (!definitionFound) {
+          const backupWord =
+            predefinedBackupWords[
+              Math.floor(Math.random() * predefinedBackupWords.length)
+            ];
+          await getWordDefinition(backupWord);
+        }
         setRandomWord(newWord);
         const currentTime = Date.now();
         localStorage.setItem(
@@ -87,7 +109,7 @@ export default function DailyWord() {
 
     // Clear the timer when the component unmounts
     return () => clearTimeout(timer);
-  }, []);
+  }, [predefinedBackupWords]);
 
   const [wordDetails, setWordDetails] = useState("");
 
@@ -106,15 +128,27 @@ export default function DailyWord() {
       const response = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${randomWord}`
       );
-      const data = await response.json();
-      // Assuming the API response is an array of definitions, you can extract the first definition
-      const firstDefinition = data[0] || "No definition found";
-      setWordDetails(firstDefinition);
-      // return firstDefinition;
+      if (response.ok) {
+        const data = await response.json();
+        console.log("-----Indicator----", data);
+        const firstDefinition = data?.[0];
+        setWordDetails(firstDefinition);
+        return true;
+      } else {
+        console.log("Error fetching word definition:", response.status);
+        return false;
+      }
     } catch (error) {
-      console.error("Error fetching word definition:", error);
-      return "Error fetching definition";
+      console.log("--------Catch Block Error:-----", error);
+      return false;
     }
+    //   const data = await response.json();
+    //   // Assuming the API response is an array of definitions, I can extract the first definition
+    //   const firstDefinition = data[0] || "No definition found";
+    //   setWordDetails(firstDefinition);
+    // } catch (error) {
+    //   console.error("Error fetching word definition:", error);
+    // }
   };
 
   const [audioURL, setAudioURL] = useState("");
@@ -188,11 +222,10 @@ export default function DailyWord() {
 
   return (
     <Layout>
-      {/* <div>
-        <h1>Your daily word: {randomWord}</h1>
-      </div> */}
       <main className={styles.dailyword__component}>
-        {!wordDetails && <LoadingComponent />}
+        {!wordDetails && (
+          <LoadingComponent LoadingAnimation={LoadingAnimation} />
+        )}
         {wordDetails && (
           <h1 className={styles.daily__word}>
             Your daily word is:{" "}
@@ -250,7 +283,7 @@ export default function DailyWord() {
                   <div className={styles.meaning}>
                     <h3>Meaning</h3>
                     <ul>
-                      {wordDetails?.meanings[0].definitions
+                      {wordDetails?.meanings?.[0].definitions
                         .slice(0, 5)
                         .map((def, index) => (
                           <li className="small__text" key={index}>
@@ -260,10 +293,10 @@ export default function DailyWord() {
                     </ul>
                   </div>
                   <div className={`${styles.synonyms}`}>
-                    {wordDetails?.meanings[0].synonyms.length >= 1 && (
+                    {wordDetails?.meanings?.[0].synonyms.length >= 1 && (
                       <h3>Synonyms</h3>
                     )}
-                    {wordDetails?.meanings[0].synonyms
+                    {wordDetails?.meanings?.[0].synonyms
                       .slice(0, 5)
                       .map((searchTerm, index) => (
                         <span
@@ -276,7 +309,7 @@ export default function DailyWord() {
                   </div>
                 </div>
                 {/* TODO SEPERATION */}
-                {wordDetails?.[0]?.meanings[1] && (
+                {wordDetails?.[0]?.meanings?.[1] && (
                   <div className={styles.description}>
                     <div>
                       <p className={`${styles.speech__name} regular__text`}>
@@ -302,8 +335,11 @@ export default function DailyWord() {
 
                 <div className={styles.source}>
                   <span>Source</span>
-                  <Link target="_blank" href={wordDetails?.sourceUrls[0]}>
-                    {wordDetails?.sourceUrls[0]}
+                  <Link
+                    target="_blank"
+                    href={wordDetails?.sourceUrls?.[0] || ""}
+                  >
+                    {wordDetails?.sourceUrls?.[0]}
                   </Link>
                 </div>
               </div>

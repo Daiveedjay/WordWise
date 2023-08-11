@@ -156,7 +156,7 @@
 //   };
 // }
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Quiz.module.css";
 import { FaRegQuestionCircle } from "react-icons/fa";
@@ -164,7 +164,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuizContext } from "@/context/QuizContext";
 
-function QuizPage({ initialData }) {
+function QuizPage({ initialData, error }) {
   console.log(initialData);
   const [data, setData] = useState(initialData);
   const questions = data?.slice(0, 2);
@@ -176,13 +176,24 @@ function QuizPage({ initialData }) {
   } = useQuizContext();
 
   const fetchNewData = async () => {
-    const timestamp = new Date().getTime();
-    const res = await fetch(
-      `https://the-trivia-api.com/v2/questions?timestamp=${timestamp}`
-    );
-    const newData = await res.json();
-    setData(newData);
+    try {
+      const timestamp = new Date().getTime();
+      const res = await fetch(
+        `https://the-trivia-api.com/v2/questions?timestamp=${timestamp}`
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const newData = await res.json();
+      setData(newData);
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+      // You can handle the error here, e.g., show an error message to the user
+    }
   };
+
   // const questions = data.slice(0, 2);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -200,7 +211,10 @@ function QuizPage({ initialData }) {
   const questionObj = questions && questions[currentQuestion];
   const questionText = questionObj?.question.text;
   const correctAnswer = questionObj?.correctAnswer;
-  const { incorrectAnswers } = questionObj;
+
+  const incorrectAnswers = useMemo(() => {
+    return questionObj?.incorrectAnswers ?? [];
+  }, [questionObj?.incorrectAnswers]);
 
   useEffect(() => {
     if (correctAnswer) {
@@ -260,17 +274,15 @@ function QuizPage({ initialData }) {
     setAreButtonsDisabled(true);
     setIsSubmitClicked(true);
     if (selectedAnswer === correctAnswer) {
-      // setCorrectAnswersCount(correctAnswersCount + 1);
       setIsAnswerCorrect(true);
       toast.success("Correct answer!");
       setCorrectAnswersCount((prevCount) => prevCount + 1);
     } else {
       setIsAnswerCorrect(false);
-      toast.error("Incorrect answer.");
+      toast.error("Incorrect answer");
     }
     // Update the questionsAttempted count
     setQuestionsAttemptedCount((prevCount) => prevCount + 1);
-    // setQuestionsAttemptedCount(questionsAttemptedCount + 1);
   };
 
   console.log("Length", currentQuestion, questions?.length);
@@ -294,102 +306,119 @@ function QuizPage({ initialData }) {
     <Layout title={"Quiz"}>
       <div className={styles.quiz__page}>
         <ToastContainer />
-        {!quizCompleted && currentQuestion <= questions?.length - 1 ? (
-          <div className={styles.quiz__question}>
-            <h2 className={styles.question__number}>
-              Question {currentQuestion + 1}
-            </h2>
-            <h2 className={`${styles.question__text} utility__header`}>
-              {questionText}
-            </h2>
-            <ul className={styles.answers__container}>
-              {allAnswers.map((answer, answerIndex) => (
-                <li className={styles.answer__option} key={answerIndex}>
-                  <div
-                    className={`${styles.answer__letter} ${
-                      selectedAnswer === answer ? "selected" : ""
-                    }`}
+        {error && (
+          <div>
+            <h1>An error occured while fetching your data</h1>
+            <button onClick={fetchNewData}>Try again</button>
+          </div>
+        )}
+        {!error && (
+          <>
+            {!quizCompleted && currentQuestion <= questions?.length - 1 ? (
+              <div className={styles.quiz__question}>
+                <h2 className={styles.question__number}>
+                  Question {currentQuestion + 1}
+                </h2>
+                <h2 className={`${styles.question__text} utility__header`}>
+                  {questionText}
+                </h2>
+                <ul className={styles.answers__container}>
+                  {allAnswers.map((answer, answerIndex) => (
+                    <li className={styles.answer__option} key={answerIndex}>
+                      <div
+                        className={`${styles.answer__letter} ${
+                          selectedAnswer === answer ? "selected" : ""
+                        }`}
+                      >
+                        {String.fromCharCode(97 + answerIndex)}
+                        {/* Convert index to letter */}
+                      </div>
+                      <button
+                        className={`${styles.answer__button} ${
+                          selectedAnswer === answer ? "selected" : ""
+                        } ${
+                          isAnswerSubmitted &&
+                          selectedAnswer === answer &&
+                          isAnswerCorrect
+                            ? "correct"
+                            : ""
+                        }`}
+                        onClick={() => handleAnswerSelect(answer)}
+                        disabled={areButtonsDisabled}
+                        data-text={answer}
+                      >
+                        {answer}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className={styles.action__buttons}>
+                  <button
+                    onClick={() => {
+                      if (currentQuestion > 0) {
+                        handleRestart();
+                      }
+                    }}
+                    className={styles.restart__quiz}
                   >
-                    {String.fromCharCode(97 + answerIndex)}
-                    {/* Convert index to letter */}
+                    Restart Quiz
+                  </button>
+                  <div className={styles.controls}>
+                    {showSubmitButton && (
+                      <button
+                        className={styles.submit__button}
+                        onClick={() => handleSubmit()}
+                        disabled={
+                          !selectedAnswer ||
+                          areButtonsDisabled ||
+                          isSubmitClicked
+                        }
+                      >
+                        Submit
+                      </button>
+                    )}
+
+                    {currentQuestion <= questions.length && (
+                      <button
+                        className={styles.next__button}
+                        onClick={handleNextQuestion}
+                        // disabled={
+                        //   isAnswerSubmitted === false || areButtonsDisabled === true
+                        // }
+                        disabled={!isSubmitClicked}
+                      >
+                        Next Question
+                      </button>
+                    )}
                   </div>
-                  <button
-                    className={`${styles.answer__button} ${
-                      selectedAnswer === answer ? "selected" : ""
-                    } ${
-                      isAnswerSubmitted &&
-                      selectedAnswer === answer &&
-                      isAnswerCorrect
-                        ? "correct"
-                        : ""
-                    }`}
-                    onClick={() => handleAnswerSelect(answer)}
-                    disabled={areButtonsDisabled}
-                    data-text={answer}
-                  >
-                    {answer}
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            <div className={styles.action__buttons}>
-              <button
-                onClick={() => {
-                  if (currentQuestion > 0) {
-                    handleRestart();
-                  }
-                }}
-                className={styles.restart__quiz}
-              >
-                Restart Quiz
-              </button>
-              <div className={styles.controls}>
-                {showSubmitButton && (
-                  <button
-                    className={styles.submit__button}
-                    onClick={() => handleSubmit()}
-                    disabled={
-                      !selectedAnswer || areButtonsDisabled || isSubmitClicked
-                    }
-                  >
-                    Submit
-                  </button>
-                )}
-
-                {currentQuestion <= questions.length && (
-                  <button
-                    className={styles.next__button}
-                    onClick={handleNextQuestion}
-                    // disabled={
-                    //   isAnswerSubmitted === false || areButtonsDisabled === true
-                    // }
-                    disabled={!isSubmitClicked}
-                  >
-                    Next Question
-                  </button>
-                )}
+                </div>
               </div>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.quiz__result}>
-            <h2 className="utility__header">
-              Congratulations! You have completed the quiz.
-            </h2>
-            <p className="small__text">
-              You answered <span>{correctAnswersCount} </span>out of{" "}
-              <span>{questions?.length} </span>
-              questions correctly.
-            </p>
-            <p className="small__text">
-              Percentage pass:{" "}
-              <span>{(correctAnswersCount / questions?.length) * 100}%</span>
-            </p>
-            <button onClick={handleRestart} className={styles.restart__quiz}>
-              Take another quiz
-            </button>
-          </div>
+            ) : (
+              <div className={styles.quiz__result}>
+                <h2 className="utility__header">
+                  Congratulations! You have completed the quiz.
+                </h2>
+                <p className="small__text">
+                  You answered <span>{correctAnswersCount} </span>out of{" "}
+                  <span>{questions?.length} </span>
+                  questions correctly.
+                </p>
+                <p className="small__text">
+                  Percentage pass:{" "}
+                  <span>
+                    {(correctAnswersCount / questions?.length) * 100}%
+                  </span>
+                </p>
+                <button
+                  onClick={handleRestart}
+                  className={styles.restart__quiz}
+                >
+                  Take another quiz
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </Layout>
@@ -399,12 +428,19 @@ function QuizPage({ initialData }) {
 export default QuizPage;
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://the-trivia-api.com/v2/questions`);
-  const data = await res.json();
+  try {
+    const res = await fetch(`https://the-trivia-api.com/v2/questions`);
+    const data = await res.json();
 
-  return {
-    props: { initialData: data },
-  };
+    return {
+      props: { initialData: data },
+    };
+  } catch (error) {
+    console.error("Error fetching initial data:", error);
+    return {
+      props: { initialData: null, error: true },
+    };
+  }
 }
 
 {
