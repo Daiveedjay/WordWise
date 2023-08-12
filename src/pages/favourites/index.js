@@ -27,6 +27,7 @@ export default function FavouritesPage() {
   return (
     <Layout>
       <div className={styles.utility__component}>
+        {error && <div>{error}</div>}
         {!isPending && documents?.length <= 0 && (
           <>
             <h2
@@ -42,7 +43,15 @@ export default function FavouritesPage() {
             <LoadingComponent LoadingAnimation={BaseAnimation} />
           </>
         )}
-        {isPending && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
+        {isPending && (
+          <>
+            <div>
+              <h1>Loading your favourite words</h1>
+            </div>
+            <LoadingComponent LoadingAnimation={LoadingAnimation} />
+          </>
+        )}
+
         {documents?.length > 0 && !isPending && (
           <h1 className="lead__text">Favourites</h1>
         )}
@@ -58,12 +67,12 @@ export default function FavouritesPage() {
                   <FaSearch
                     className={styles.search__icon}
                     fontSize={20}
-                    fill="#9c9c9c"
+                    fill="#e5d6d6"
                     onClick={() => handleClick(doc.dataName)}
                   />
                   <FaTrash
                     fontSize={20}
-                    fill="#9c9c9c"
+                    fill="#e5d6d6"
                     onClick={() => deleteFavourite(doc.dataKey)}
                     className={styles.delete__icon}
                   />

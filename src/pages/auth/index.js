@@ -22,6 +22,7 @@ import { useGithubSignup } from "@/hooks/useGithubSignup";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import LoadingComponent from "@/components/Loading";
 import LoadingAnimation from "../../../public/media/Loading_animation.json";
+import { useLogin } from "@/hooks/useLogin";
 
 export default function AuthPage() {
   const { user, authIsReady } = useAuthContext();
@@ -31,7 +32,15 @@ export default function AuthPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { signup } = useSignup();
+  const [isLogin, setIsLogin] = useState(false);
+
+  const {
+    signup,
+    isPending: signupIsPending,
+    error: signupError,
+  } = useSignup();
+
+  const { login, isPending: loginIsPending, error: loginError } = useLogin();
 
   const { signInWithGoogle } = useGoogleSignup();
 
@@ -41,15 +50,30 @@ export default function AuthPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword)
+
+    if (isLogin) {
+      await login(email, password);
+
+      // toast.success("You logged in successfully");
+      return;
+    }
+
+    if (password !== confirmPassword) {
       toast.error("Make sure your password fields are the same");
-    console.log(email, password, confirmPassword);
+      return;
+    }
+
     await signup(email, password, displayName);
-    toast.success("You signed up successfully");
+
+    if (user) toast.success("You signed in successfully");
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const toggleInputFields = () => {
+    setIsLogin(!isLogin);
   };
 
   const EyeIcon = showPassword ? FaEyeSlash : FaEye;
@@ -59,8 +83,16 @@ export default function AuthPage() {
     <>
       <ToastContainer />
       {!authIsReady && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
+      {signupIsPending ||
+        (loginIsPending && (
+          <LoadingComponent LoadingAnimation={LoadingAnimation} />
+        ))}
       {!user && authIsReady && (
         <div className={styles.Auth__page}>
+          <div className={styles.shaper__wrapper}>
+            <div className={styles.shape}> </div>
+            <div className={styles.second__shape}></div>
+          </div>
           <div className={styles.Auth__header}>
             <Image src={Logo} alt="Logo icon" width={25} height={25} />
             <h1>Welcome to WordWise</h1>
@@ -71,7 +103,7 @@ export default function AuthPage() {
               <div>
                 <FaEnvelope
                   className={styles.input__icon}
-                  fill="#9c9c9c"
+                  fill="#b7abab"
                   fontSize={15}
                 />
                 <input
@@ -83,23 +115,25 @@ export default function AuthPage() {
                   aria-required
                 />
               </div>
-              <div>
-                <FaUser
-                  fill="#9c9c9c"
-                  className={styles.input__icon}
-                  fontSize={15}
-                />
-                <input
-                  type="text"
-                  placeholder="Enter your Username"
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  value={displayName}
-                  aria-required
-                />
-              </div>
+              {!isLogin && (
+                <div>
+                  <FaUser
+                    fill="#b7abab"
+                    className={styles.input__icon}
+                    fontSize={15}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter your Username"
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    value={displayName}
+                    aria-required
+                  />
+                </div>
+              )}
               <div>
                 <FaLock
-                  fill="#9c9c9c"
+                  fill="#b7abab"
                   className={styles.input__icon}
                   fontSize={15}
                 />
@@ -112,32 +146,49 @@ export default function AuthPage() {
                 />
                 <EyeIcon
                   className={styles.toggle__password}
-                  fill="#9c9c9c"
+                  fill="#b7abab"
                   fontSize={15}
                   onClick={togglePasswordVisibility}
                 />
               </div>
-              <div>
-                <FaLock
-                  fill="#9c9c9c"
-                  className={styles.input__icon}
-                  fontSize={15}
-                />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Confirm your password abeg, e get why"
-                  aria-required
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  value={confirmPassword}
-                />
-                <EyeIcon
-                  className={styles.toggle__password}
-                  fill="#9c9c9c"
-                  fontSize={15}
-                  onClick={togglePasswordVisibility}
-                />
-              </div>
-              <button type="submit">Sign Up</button>
+              {!isLogin && (
+                <div>
+                  <FaLock
+                    fill="#b7abab"
+                    className={styles.input__icon}
+                    fontSize={15}
+                  />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirm your password abeg, e get why"
+                    aria-required
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                  />
+                  <EyeIcon
+                    className={styles.toggle__password}
+                    fill="#b7abab"
+                    fontSize={15}
+                    onClick={togglePasswordVisibility}
+                  />
+                </div>
+              )}
+
+              <button type="submit">{isLogin ? "Login" : "Sign Up"}</button>
+
+              <p className={styles.login}>
+                {!isLogin
+                  ? "Already have an account? "
+                  : "Don't have an account? "}
+                <span onClick={toggleInputFields}>
+                  {!isLogin ? "Login here" : "Sign up"}
+                </span>
+              </p>
+
+              {/* <p className={styles.login}>
+                Already have an account?{" "}
+                <span onClick={toggleInputFields}>Login here</span>
+              </p> */}
             </form>
             <p className={styles.Auth__divider}>OR</p>
             <div className={styles.Auth__actions}>

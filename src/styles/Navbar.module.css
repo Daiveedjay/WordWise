@@ -3,12 +3,16 @@
   gap: 5rem;
   align-items: center;
   padding: 1rem 2rem;
-  box-shadow: 3px 5px 5px var(--light-box-shadow),
-    -3px -5px 5px var(--light-box-shadow);
+  /* box-shadow: 3px 5px 5px var(--light-box-shadow),
+    -3px -5px 5px var(--light-box-shadow); */
+  box-shadow: 1.5px 3px 3px var(--light-box-shadow);
+  /* ,
+    -3px -5px 5px var(--light-box-shadow); */
 }
 
 .logo__container {
   margin-right: auto;
+  z-index: 50;
 }
 
 .font__dropdown select {
@@ -24,6 +28,8 @@
 .theme__switcher {
   position: relative;
   min-width: 7.5rem;
+  /* border: 2px solid red; */
+  z-index: 50;
 }
 
 .theme__switcher label {
@@ -118,5 +124,10 @@
 @media screen and (max-width: 23.4375em) {
   .nav__component {
     padding: 1rem;
+  }
+
+  .logo__container img {
+    width: 25px;
+    height: 25px;
   }
 }

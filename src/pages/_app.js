@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { FontProvider } from "@/context/FontContext";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { QuizProvider } from "@/context/QuizContext";
+
 export default function App({ Component, pageProps }) {
   return (
     <AuthContextProvider>

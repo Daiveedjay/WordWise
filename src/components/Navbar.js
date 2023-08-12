@@ -8,13 +8,6 @@ import Dropdown from "./Dropdown";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 
-const options = [
-  { label: "Default styles", value: "default" },
-  { label: "Sans-serif", value: "sans-serif" },
-  { label: "Mono", value: "mono" },
-  { label: "Serif", value: "serif" },
-];
-
 export default function Navbar() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const themeToggle = useRef(null);
@@ -53,7 +46,7 @@ export default function Navbar() {
       </Link>
       <Search />
 
-      <Dropdown options={options} />
+      <Dropdown />
 
       <div className={`${themeSwitcherClassName} mobile__hide`}>
         <input

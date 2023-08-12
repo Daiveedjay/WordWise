@@ -24,31 +24,31 @@ import {
 const navArray = [
   {
     name: "Favourites",
-    icon: <FaHeart fontSize={25} fill="#9c9c9c" strokeWidth={5} />,
+    icon: <FaHeart fontSize={25} fill="#b7abab" strokeWidth={5} />,
     route: "/favourites",
     active: <FaHeart fill="#a445ed" fontSize={25} />,
   },
   {
     name: "Daily Word",
-    icon: <FaBook fontSize={25} fill="#9c9c9c" />,
+    icon: <FaBook fontSize={25} fill="#b7abab" />,
     route: "/dailyword",
     active: <FaBook fill="#a445ed" fontSize={25} />,
   },
   {
     name: "Quiz",
-    icon: <FaQuestionCircle fontSize={25} fill="#9c9c9c" />,
+    icon: <FaQuestionCircle fontSize={25} fill="#b7abab" />,
     route: "/quiz",
     active: <FaQuestionCircle fill="#a445ed" fontSize={25} />,
   },
   {
     name: "History",
-    icon: <FaHistory fontSize={25} fill="#9c9c9c" />,
+    icon: <FaHistory fontSize={25} fill="#b7abab" />,
     route: "/history",
     active: <FaHistory fill="#a445ed" fontSize={25} />,
   },
   {
     name: "Admin",
-    icon: <FaUser fontSize={25} fill="#9c9c9c" />,
+    icon: <FaUser fontSize={25} fill="#b7abab" />,
     route: "/admin",
     active: <FaUser fontSize={25} fill="#a445ed" />,
   },

@@ -7,6 +7,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useFont } from "@/hooks/useFont";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Layout({ title, keywords, description, children }) {
   const { mode } = useTheme();
@@ -19,24 +20,76 @@ export default function Layout({ title, keywords, description, children }) {
       router.push("/auth");
     }
   }, [user, router, authIsReady]);
+
+  const shapeVariants = {
+    initial: {
+      clipPath: "polygon(68% 8%, 92% 5%, 94% 51%, 92% 97%, 45% 62%, 63% 36%)",
+    },
+    animate: {
+      clipPath: "polygon(5% 94%, 7% 9%, 77% 73%, 93% 86%, 12% 95%, 92% 6%)",
+    },
+    transition: {
+      duration: 10,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "linear",
+    },
+  };
+
   return (
     <>
       {
-        <div className={`${styles.Layout__container} ${mode} ${font}`}>
+        <div className={`${styles.Layout__container} ${mode} `}>
           <Head>
             <title>{title}</title>
             <meta name="description" content={description} />
             <meta name="keywords" content={keywords} />
           </Head>
+          <div className={styles.shaper__wrapper}>
+            <motion.div
+              variants={shapeVariants}
+              initial="initial"
+              animate="animate"
+              className={styles.shape}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "linear",
+              }}
+            ></motion.div>
+          </div>
           <Navbar />
           <Sidebar />
-          <main className={`${styles.main__section} `}>
-            {children}
-            <div className={styles.shaper__wrapper}>
-              <div className={styles.shape}> </div>
-              <div className={styles.second__shape}></div>
-            </div>
-          </main>
+          <AnimatePresence mode="wait">
+            <motion.main
+              initial="initialState"
+              animate="animateState"
+              exit="exitState"
+              transition={{ duration: 0.75 }}
+              key={router.route}
+              variants={{
+                initialState: {
+                  opacity: 0,
+                  x: "100%",
+                  clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+                },
+                animateState: {
+                  opacity: 1,
+                  x: "0%",
+
+                  clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+                },
+                exitState: {
+                  opacity: 0,
+                  x: "-100%",
+                },
+              }}
+              className={`${styles.main__section} ${font}`}
+            >
+              {children}
+            </motion.main>
+          </AnimatePresence>
         </div>
       }
     </>

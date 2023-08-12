@@ -2,7 +2,7 @@ import styles from "@/styles/SearchResult.module.css";
 import FavIconInactive from "../../../public/media/icon-favourite-inactive.svg";
 
 import Layout from "@/components/Layout";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useData } from "@/context/DataContext";
@@ -96,41 +96,6 @@ export default function DailyWord() {
     // Fetch random word on page load
     fetchRandomWord();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchRandomWord = async () => {
-  //     const predefinedBackupWords = [
-  //       "sinusoidal",
-  //       "enumerate",
-  //       "liquify",
-  //       "Anachronism",
-  //       "Draconian",
-  //       "Pareidolia",
-  //       "Serendipity",
-  //       "Verisimilitude",
-  //       "sarcophagus",
-  //       "Cacophony",
-  //     ];
-  //     const randomIndex = Math.floor(
-  //       Math.random() * predefinedBackupWords?.length
-  //     );
-  //     const randomWord = predefinedBackupWords?.[randomIndex];
-
-  //     setRandomWord(randomWord);
-  //     console.log("----Indicator for randWd", randomWord);
-  //     await getWordDefinition(randomWord);
-  //   };
-  //   // Fetch random word on page load
-  //   fetchRandomWord();
-  // }, []);
-
-  // // Set an interval to fetch a new random word every 24 hours
-  // const intervalId = setInterval(() => {
-  //   fetchRandomWord();
-  // }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
-
-  // // Clear the interval when the component unmounts
-  // return () => clearInterval(intervalId);
 
   const [audioURL, setAudioURL] = useState("");
 

@@ -159,15 +159,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Quiz.module.css";
-import { FaRegQuestionCircle } from "react-icons/fa";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuizContext } from "@/context/QuizContext";
+import { useRouter } from "next/router";
 
 function QuizPage({ initialData, error }) {
   console.log(initialData);
   const [data, setData] = useState(initialData);
   const questions = data?.slice(0, 2);
+  const router = useRouter();
 
   const {
     correctAnswersCount,
@@ -302,14 +304,20 @@ function QuizPage({ initialData, error }) {
     fetchNewData();
   };
 
+  const handleStats = () => {
+    router.push("/admin");
+  };
+
   return (
     <Layout title={"Quiz"}>
       <div className={styles.quiz__page}>
         <ToastContainer />
         {error && (
-          <div>
+          <div className={`${styles.error} `}>
             <h1>An error occured while fetching your data</h1>
-            <button onClick={fetchNewData}>Try again</button>
+            <button className={styles.restart__quiz} onClick={fetchNewData}>
+              Try again
+            </button>
           </div>
         )}
         {!error && (
@@ -415,6 +423,9 @@ function QuizPage({ initialData, error }) {
                   className={styles.restart__quiz}
                 >
                   Take another quiz
+                </button>
+                <button onClick={handleStats} className={styles.restart__quiz}>
+                  See Stats
                 </button>
               </div>
             )}
