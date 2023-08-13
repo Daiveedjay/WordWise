@@ -107,10 +107,10 @@ export default function AuthPage() {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  // aria-autocomplete="inline"
+                  aria-autocomplete="inline"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                  aria-required
+                  required
                 />
               </div>
               {!isLogin && (
@@ -125,7 +125,8 @@ export default function AuthPage() {
                     placeholder="Enter your Username"
                     onChange={(e) => setDisplayName(e.target.value)}
                     value={displayName}
-                    aria-required
+                    required
+                    aria-autocomplete="inline"
                   />
                 </div>
               )}
@@ -140,7 +141,8 @@ export default function AuthPage() {
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
-                  aria-required
+                  required
+                  aria-autocomplete="inline"
                 />
                 <EyeIcon
                   className={styles.toggle__password}
@@ -159,9 +161,10 @@ export default function AuthPage() {
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="Confirm your password abeg, e get why"
-                    aria-required
+                    required
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     value={confirmPassword}
+                    aria-autocomplete="inline"
                   />
                   <EyeIcon
                     className={styles.toggle__password}
@@ -182,11 +185,6 @@ export default function AuthPage() {
                   {!isLogin ? "Login here" : "Sign up"}
                 </span>
               </p>
-
-              {/* <p className={styles.login}>
-                Already have an account?{" "}
-                <span onClick={toggleInputFields}>Login here</span>
-              </p> */}
             </form>
             <p className={styles.Auth__divider}>OR</p>
             <div className={styles.Auth__actions}>

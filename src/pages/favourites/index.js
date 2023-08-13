@@ -53,19 +53,18 @@ export default function FavouritesPage() {
           {documents &&
             documents.map((doc) => (
               <div className={styles.utility__item} key={doc.dataKey}>
-                <li
-                  // onClick={() => handleClick(doc.dataName)}
-                  className="regular__text"
-                >
+                <li style={{ cursor: "default" }} className="regular__text">
                   <FaSearch
                     className={styles.search__icon}
                     fontSize={20}
                     fill="#e5d6d6"
+                    style={{ cursor: "pointer" }}
                     onClick={() => handleClick(doc.dataName)}
                   />
                   <FaTrash
                     fontSize={20}
                     fill="#e5d6d6"
+                    style={{ cursor: "pointer" }}
                     onClick={() => deleteFavourite(doc.dataKey)}
                     className={styles.delete__icon}
                   />

@@ -9,10 +9,13 @@ import { useEffect, useMemo, useState } from "react";
 
 import { FaStar, FaTools, FaSave } from "react-icons/fa";
 import { useQuizContext } from "@/context/QuizContext";
+import { useData } from "@/context/DataContext";
 
 export default function AdminPage() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const { resetDataAndSearches } = useData();
+  // console.log(resetDataAndSearches);
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
   const [fetched, setFetched] = useState(false);
@@ -189,6 +192,7 @@ export default function AdminPage() {
               <button
                 onClick={() => {
                   logout();
+                  resetDataAndSearches();
                   router.push("/auth");
                 }}
               >

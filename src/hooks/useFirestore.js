@@ -71,30 +71,32 @@ export const useFirestore = (collectionName) => {
     console.log("Trying to add document to Firestore...");
     dispatch({ type: "IS_PENDING" });
     try {
-      // Check for existing bookmark
-      const existingFavouriteQuery = query(
-        ref,
-        where("uid", "==", uid),
-        where("dataKey", "==", dataKey)
-      );
-      const existingFavouriteSnapshot = await getDocs(existingFavouriteQuery);
+      if (uid && dataKey) {
+        // Check for existing bookmark
+        const existingFavouriteQuery = query(
+          ref,
+          where("uid", "==", uid),
+          where("dataKey", "==", dataKey)
+        );
+        const existingFavouriteSnapshot = await getDocs(existingFavouriteQuery);
 
-      console.log("Existing Sanpshot", existingFavouriteSnapshot);
+        console.log("Existing Sanpshot", existingFavouriteSnapshot);
 
-      if (existingFavouriteSnapshot.empty) {
-        // Add document if the bookmark doesn't exist
-        const addedDocument = await addDoc(ref, {
-          dataKey,
-          dataName,
-          uid,
-          timestamp: serverTimestamp(),
-        });
+        if (existingFavouriteSnapshot.empty) {
+          // Add document if the bookmark doesn't exist
+          const addedDocument = await addDoc(ref, {
+            dataKey,
+            dataName,
+            uid,
+            timestamp: serverTimestamp(),
+          });
 
-        toast.success(`${dataKey} added to your favourites`);
-        dispatchIfNotCancelled({
-          type: "ADDED_DOCUMENT",
-          payload: addedDocument,
-        });
+          toast.success(`${dataKey} added to your favourites`);
+          dispatchIfNotCancelled({
+            type: "ADDED_DOCUMENT",
+            payload: addedDocument,
+          });
+        }
       } else {
         dispatchIfNotCancelled({
           type: "ERROR",
@@ -146,5 +148,4 @@ export const useFirestore = (collectionName) => {
   }, []);
 
   return { deleteFavourite, favouriteWord, response };
-  // return { favouriteWord, response };
 };

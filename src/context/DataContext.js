@@ -71,15 +71,29 @@ export function DataProvider({ children }) {
     }
   };
 
-  // Reset data and searches when the user changes
-  useEffect(() => {
+  // // Reset data and searches when the user changes
+  // useEffect(() => {
+  //   setData(null);
+  //   setSearches(new Set());
+  // }, [user]);
+
+  // Reset data and searches when a user initiates a new search
+  const resetDataAndSearches = () => {
     setData(null);
     setSearches(new Set());
-  }, [user]);
+    console.log("---I was called--");
+  };
 
   return (
     <DataContext.Provider
-      value={{ data, isPending, error, searches, fetchData }}
+      value={{
+        data,
+        isPending,
+        error,
+        searches,
+        fetchData,
+        resetDataAndSearches,
+      }}
     >
       {children}
     </DataContext.Provider>
