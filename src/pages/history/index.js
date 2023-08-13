@@ -21,15 +21,7 @@ export default function HistoryPage() {
       <div className={styles.utility__component}>
         {searchesArray.length === 0 && (
           <>
-            <h2
-              style={{
-                zIndex: 20,
-                margin: "auto",
-                position: "relative",
-                textAlign: "center",
-              }}
-              className="utility__header"
-            >
+            <h2 className="utility__header loading__header">
               No words searched, search now...
             </h2>
             <LoadingComponent LoadingAnimation={BaseAnimation} />

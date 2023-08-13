@@ -170,7 +170,12 @@ export default function DailyWord() {
     <Layout>
       <main className={styles.dailyword__component}>
         {!wordDetails && (
-          <LoadingComponent LoadingAnimation={LoadingAnimation} />
+          <>
+            <h2 className="utility__header loading__header">
+              Your daily word is loading...
+            </h2>
+            <LoadingComponent LoadingAnimation={LoadingAnimation} />
+          </>
         )}
         {wordDetails && (
           <h1 className={styles.daily__word}>

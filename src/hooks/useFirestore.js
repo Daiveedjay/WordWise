@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase/config";
+import { toast } from "react-toastify";
 
 let initialState = {
   document: null,
@@ -89,7 +90,7 @@ export const useFirestore = (collectionName) => {
           timestamp: serverTimestamp(),
         });
 
-        console.log("Document added successfully:", addedDocument);
+        toast.success(`${dataKey} added to your favourites`);
         dispatchIfNotCancelled({
           type: "ADDED_DOCUMENT",
           payload: addedDocument,
@@ -123,6 +124,7 @@ export const useFirestore = (collectionName) => {
         // Delete the document if found
         const docID = deleteFavouriteSnapshot.docs[0].id;
         await deleteDoc(doc(ref, docID));
+        toast.success(`${dataKey} removed from your favourites`);
         dispatchIfNotCancelled({
           type: "DELETED_DOCUMENT",
         });

@@ -30,14 +30,7 @@ export default function FavouritesPage() {
         {error && <div>{error}</div>}
         {!isPending && documents?.length <= 0 && (
           <>
-            <h2
-              style={{
-                zIndex: 20,
-                margin: "auto",
-                position: "relative",
-                textAlign: "center",
-              }}
-            >
+            <h2 className="utility__header loading__header">
               You have no favourite words yet, add some now
             </h2>
             <LoadingComponent LoadingAnimation={BaseAnimation} />
@@ -76,13 +69,7 @@ export default function FavouritesPage() {
                     onClick={() => deleteFavourite(doc.dataKey)}
                     className={styles.delete__icon}
                   />
-                  {/* <Image
-                    title="Remove Bookmark"
-                    src={RemoveFavourite}
-                    width={25}
-                    height={25}
-                    alt="Market Favourite Icon"
-                  /> */}
+
                   {doc.dataName}
                 </li>
               </div>

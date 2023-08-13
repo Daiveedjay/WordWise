@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { useRouter } from "next/router";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const DataContext = createContext();
 
@@ -9,7 +11,9 @@ export function DataProvider({ children }) {
   const [searches, setSearches] = useState(new Set());
   let controller;
 
+  const { user } = useAuthContext();
 
+  const router = useRouter();
 
   const fetchData = async (searchTerm) => {
     if (controller) {
@@ -57,15 +61,21 @@ export function DataProvider({ children }) {
         setIsPending(false);
         setData(json);
         setError(null);
+        router.push("/");
       }
     } catch (error) {
       if (error.name !== "AbortError") {
         setIsPending(false);
         setError(error.message);
-        
       }
     }
   };
+
+  // Reset data and searches when the user changes
+  useEffect(() => {
+    setData(null);
+    setSearches(new Set());
+  }, [user]);
 
   return (
     <DataContext.Provider

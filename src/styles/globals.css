@@ -131,15 +131,6 @@ li::marker {
 .lead__text {
   font-size: 5rem;
   font-family: var(--LoraBold);
-  /* background: linear-gradient(
-    110deg,
-    hsl(274, 82%, 60%) 0%,
-    hsl(274, 82%, 50%) 100%
-  );
-
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent !important; */
   text-transform: capitalize;
 }
 .regular__text {
@@ -153,6 +144,13 @@ li::marker {
 
 .small__text {
   font-size: 1.6rem;
+}
+
+.loading__header {
+  z-index: 60;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
 }
 
 .dark {
@@ -256,3 +254,5 @@ li::marker {
     font-size: 1.75rem;
   }
 }
+
+/* .utility__header  */

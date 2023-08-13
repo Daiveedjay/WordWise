@@ -1,167 +1,8 @@
-// // import Layout from "@/components/Layout";
-// // import styles from "@/styles/Quiz.module.css";
-
-// // import { FaRegQuestionCircle } from "react-icons/fa";
-// // function QuizPage({ data }) {
-// //   console.log(data);
-// //   return (
-// //     <Layout title={"Quiz"}>
-// //       <div className={styles.quiz__page}>
-// //         {/* <div className={styles.quiz__modal}>
-// //           <FaRegQuestionCircle fontSize={"50px"} fill="#a445ed" />
-// //           <h1 className="utility__header">
-// //             Are you ready to test your knowledge ?
-// //           </h1>
-// //           <button className={styles.quiz__button}>Take test</button>
-// //         </div> */}
-// //       </div>
-// //     </Layout>
-// //   );
-// // }
-
-// // export default QuizPage;
-
-// // import React from "react";
-// // import Layout from "@/components/Layout";
-// // import styles from "@/styles/Quiz.module.css";
-
-// // import { FaRegQuestionCircle } from "react-icons/fa";
-
-// // function QuizPage({ data }) {
-// //   // Assuming data is an array of 10 question objects received from the server
-// //   const questions = data.slice(0, 10); // Get the first 10 questions (you can adjust the number as needed)
-
-// //   // Function to shuffle the answer options
-// //   function shuffleAnswers(answers) {
-// //     return answers.sort(() => Math.random() - 0.5);
-// //   }
-
-// //   return (
-// //     <Layout title={"Quiz"}>
-// //       <div className={styles.quiz__page}>
-// //         {questions.map((questionObj, index) => {
-// //           const questionText = questionObj.question.text;
-// //           const correctAnswer = questionObj.correctAnswer;
-// //           const incorrectAnswers = questionObj.incorrectAnswers;
-// //           const allAnswers = shuffleAnswers([
-// //             correctAnswer,
-// //             ...incorrectAnswers,
-// //           ]);
-
-// //           return (
-// //             <div key={index} className={styles.quiz__question}>
-// //               <h2>{questionText}</h2>
-// //               <ul>
-// //                 {allAnswers.map((answer, answerIndex) => (
-// //                   <li key={answerIndex}>
-// //                     <button onClick={() => checkAnswer(answer, correctAnswer)}>
-// //                       {answer}
-// //                     </button>
-// //                   </li>
-// //                 ))}
-// //               </ul>
-// //             </div>
-// //           );
-// //         })}
-// //       </div>
-// //     </Layout>
-// //   );
-// // }
-
-// // export default QuizPage;
-
-// import React, { useState } from "react";
-// import Layout from "@/components/Layout";
-// import styles from "@/styles/Quiz.module.css";
-
-// import { FaRegQuestionCircle } from "react-icons/fa";
-
-// function QuizPage({ data }) {
-//   console.log(data);
-//   // Assuming data is an array of question objects received from the server
-//   const questions = data.slice(0, 10); // Get the first 10 questions (you can adjust the number as needed)
-
-//   const [currentQuestion, setCurrentQuestion] = useState(0);
-//   const questionObj = questions[currentQuestion];
-//   console.log(questionObj);
-//   const questionText = questionObj.question.text;
-//   const correctAnswer = questionObj.correctAnswer;
-//   const incorrectAnswers = questionObj.incorrectAnswers;
-//   const allAnswers = shuffleAnswers([correctAnswer, ...incorrectAnswers]);
-
-//   // Function to shuffle the answer options
-//   function shuffleAnswers(answers) {
-//     return answers.sort(() => Math.random() - 0.5);
-//   }
-
-//   // Function to handle selecting an answer and move to the next question
-//   function handleAnswerSelect(selectedAnswer) {
-//     if (selectedAnswer === correctAnswer) {
-//       alert("Correct answer!");
-//     } else {
-//       alert("Incorrect answer. Try again.");
-//     }
-
-//     // Move to the next question
-//     setCurrentQuestion((prevQuestion) => prevQuestion + 1);
-//   }
-
-//   return (
-//     <Layout title={"Quiz"}>
-//       <div className={styles.quiz__page}>
-//         {currentQuestion < questions.length ? (
-//           <div className={styles.quiz__question}>
-//             <h2 className={styles.question__number}>
-//               Question {currentQuestion + 1}
-//             </h2>
-//             <h2 className={`${styles.question__text} utility__header`}>
-//               {questionText}
-//             </h2>
-//             <ul className={styles.answers__container}>
-//               {allAnswers.map((answer, answerIndex) => (
-//                 <li className={styles.answer__option} key={answerIndex}>
-//                   <button
-//                     className={styles.answer__button}
-//                     onClick={() => handleAnswerSelect(answer)}
-//                   >
-//                     {answer}
-//                   </button>
-//                 </li>
-//               ))}
-//             </ul>
-//             <div className={styles.action__buttons}>
-//               <button>Submit</button>
-//               <button>Next Question</button>
-//             </div>
-//           </div>
-//         ) : (
-//           // Render something else when all questions are answered
-//           <div className={styles.quiz__result}>
-//             <h2>Congratulations! You have completed the quiz.</h2>
-//           </div>
-//         )}
-//       </div>
-//     </Layout>
-//   );
-// }
-
-// export default QuizPage;
-
-// export async function getServerSideProps() {
-//   const res = await fetch(`https://the-trivia-api.com/v2/questions`);
-//   const data = await res.json();
-
-//   return {
-//     props: { data },
-//   };
-// }
-
 import React, { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Quiz.module.css";
+import { toast } from "react-toastify";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useQuizContext } from "@/context/QuizContext";
 import { useRouter } from "next/router";
 
@@ -195,8 +36,6 @@ function QuizPage({ initialData, error }) {
       // You can handle the error here, e.g., show an error message to the user
     }
   };
-
-  // const questions = data.slice(0, 2);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -262,7 +101,6 @@ function QuizPage({ initialData, error }) {
       if (answer === correctAnswer) {
         const buttonElement = document?.querySelector(
           `[data-text="${answer.replace(/"/g, '\\"')}"]`
-          // `[data-text="${answer}"]`
         );
         if (buttonElement) {
           buttonElement.classList.remove("wrong");
@@ -311,7 +149,6 @@ function QuizPage({ initialData, error }) {
   return (
     <Layout title={"Quiz"}>
       <div className={styles.quiz__page}>
-        <ToastContainer />
         {error && (
           <div className={`${styles.error} `}>
             <h1>An error occured while fetching your data</h1>
@@ -404,10 +241,10 @@ function QuizPage({ initialData, error }) {
               </div>
             ) : (
               <div className={styles.quiz__result}>
-                <h2 className="utility__header">
+                <h2 className="utility__header loading__header ">
                   Congratulations! You have completed the quiz.
                 </h2>
-                <p className="small__text">
+                <p style={{ textAlign: "center" }} className="small__text">
                   You answered <span>{correctAnswersCount} </span>out of{" "}
                   <span>{questions?.length} </span>
                   questions correctly.
@@ -452,51 +289,4 @@ export async function getServerSideProps() {
       props: { initialData: null, error: true },
     };
   }
-}
-
-{
-  /* <button
-                    className={`${styles.answer__button} ${
-                      selectedAnswer === answer ? "selected" : ""
-                    } ${
-                      isAnswerSubmitted
-                        ? selectedAnswer === answer && isAnswerCorrect
-                          ? "correct"
-                          : ""
-                        : ""
-                    }`}
-                    onClick={() => handleAnswerSelect(answer)}
-                    disabled={areButtonsDisabled}
-                    data-text={answer}
-                  >
-                    {answer}
-                  </button> */
-}
-
-// isAnswerSubmitted && isAnswerCorrect
-//   ? "correct"
-//   : isAnswerSubmitted
-//   ? "wrong"
-//   : ""
-// selectedAnswer === answer
-//   ? isAnswerCorrect
-//     ? "correct"
-//     : "wrong"
-//   : answer === correctAnswer
-//   ? "correct"
-//   : "wrong"
-
-{
-  /* {isAnswerSubmitted &&
-                wrongAns.map((ans) => (
-                  <button className="wrong" key={ans}>
-                    {ans}
-                  </button>
-                ))}
-              {isAnswerSubmitted &&
-                rightAns.map((ans) => (
-                  <button className="correct" key={ans}>
-                    {ans}
-                  </button>
-                ))} */
 }

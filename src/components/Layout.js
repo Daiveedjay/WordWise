@@ -72,13 +72,10 @@ export default function Layout({ title, keywords, description, children }) {
                 initialState: {
                   opacity: 0,
                   x: "100%",
-                  clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
                 },
                 animateState: {
                   opacity: 1,
                   x: "0%",
-
-                  clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
                 },
                 exitState: {
                   opacity: 0,

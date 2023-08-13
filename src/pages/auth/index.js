@@ -9,8 +9,7 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import { useSignup } from "@/hooks/useSignup";
 
@@ -81,7 +80,6 @@ export default function AuthPage() {
   if (user) router.push("/");
   return (
     <>
-      <ToastContainer />
       {!authIsReady && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
       {signupIsPending ||
         (loginIsPending && (

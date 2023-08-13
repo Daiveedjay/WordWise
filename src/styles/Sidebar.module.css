@@ -59,11 +59,20 @@
 /* Under 550px */
 @media screen and (max-width: 34.375em) {
   .sidebar__nav {
-    /*  */
     gap: 2rem;
   }
 
   .sidebar__nav a {
     padding: 2rem 1rem;
+  }
+}
+
+@media screen and (max-width: 23.4375em) {
+  .sidebar__nav {
+    gap: 1rem;
+  }
+
+  .sidebar__nav .nav__icon svg {
+    font-size: 1.8rem;
   }
 }

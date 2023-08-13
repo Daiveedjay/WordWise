@@ -1,9 +1,7 @@
 import Image from "next/image";
-import PlayIcon from "../../public/media/icon-play.svg";
 import { FaPlayCircle, FaHeart } from "react-icons/fa";
 
 import FavIconInactive from "../../public/media/icon-favourite-inactive.svg";
-import FavIconActive from "../../public/media/icon-favourite-active.svg";
 import styles from "@/styles/SearchResult.module.css";
 import Link from "next/link";
 
@@ -18,8 +16,8 @@ import LoadingComponent from "./Loading";
 import LoadingAnimation from "../../public/media/Loading_animation.json";
 import BaseAnimation from "../../public/media/Walking_pencil.json";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {  toast } from "react-toastify";
+
 
 export default function SearchResult() {
   const { data, isPending, error, fetchData } = useData();
@@ -63,7 +61,8 @@ export default function SearchResult() {
     if (dataKey) {
       await favouriteWord(dataKey, dataName, uid);
       setFavouriteItems((prevSearches) => [...new Set(prevSearches), dataKey]);
-      toast.success(`${dataKey} added to favourites`);
+      // toast.success(`${dataKey} added to favourites`);
+      // console.log("----Test Toast Add---");
     }
   };
 
@@ -73,7 +72,8 @@ export default function SearchResult() {
       setFavouriteItems((prevSearches) =>
         prevSearches.filter((item) => item !== dataKey)
       );
-      toast.success(`${dataKey} removed from favourites`);
+      // toast.success(`${dataKey} removed from favourites`);
+      // console.log("----Test Toast Remove---");
     }
   };
 
@@ -101,7 +101,7 @@ export default function SearchResult() {
   const isFavorited = favouriteItems.includes(data?.[0]?.word);
   return (
     <div className={`${styles.search__component}`}>
-      <ToastContainer />
+      
       {!data && (
         <>
           <h2
@@ -153,25 +153,6 @@ export default function SearchResult() {
                     />
                   )}
                 </div>
-                {/* <Image
-                  onClick={() => {
-                    if (favouriteItems.includes(data?.[0]?.word)) {
-                      handleDelete(data?.[0]?.word);
-                    } else {
-                      handleFavourites(data);
-                    }
-                  }}
-                  src={
-                    favouriteItems.includes(data?.[0]?.word) ? (
-                      <FaHeart fontSize={30} fill="#a445ed" />
-                    ) : (
-                      FavIconInactive
-                    )
-                  }
-                  width={30}
-                  height={30}
-                  alt="Fav Icon"
-                /> */}
               </div>
             </div>
             <div className={styles.description}>
@@ -246,160 +227,3 @@ export default function SearchResult() {
     </div>
   );
 }
-
-{
-  /* <div className={styles.user__data}>
-            <div className={styles.upper__section}></div>
-            <div className={styles.lower__section}>
-              <div className={styles.image__container}>
-                <Image
-                  priority
-                  src={Avatar}
-                  alt="Avatar"
-                  width={"auto"}
-                  height={"auto"}
-                />
-              </div>
-              <div className={styles.user__details}>
-                <h2>DaiveedJay</h2>
-                <p>
-                  <Image
-                    src={StarIcon}
-                    alt="Star Icon"
-                    width={15}
-                    height={15}
-                  />
-                  Daily Streak: 2
-                </p>
-                <p>
-                  <Image
-                    src={GlassesIcon}
-                    alt="Glasses Icon"
-                    width={15}
-                    height={15}
-                  />
-                  Quiz Points: 17
-                </p>
-                <button>Log out</button>
-              </div>
-            </div>
-          </div> */
-}
-
-{
-  /* <ul>
-              <li className="small__text">
-                A foodstuff made by baking dough made from cereals.
-              </li>
-              <li className="small__text">
-                Food; sustenance; support of life, in general.
-              </li>
-              <li className="small__text">Any variety of bread.</li>
-            </ul> */
-}
-
-{
-  /* <div className={styles.Search__results}>
-        <div className={styles.title}>
-          <div className={styles.lead__container}>
-            <h1 className="lead__text">keyboard</h1>
-            <p className={styles.phonetic}>/ˈkiːbɔːd/</p>
-          </div>
-          <div className={styles.play__container}>
-            <Image src={PlayIcon} width={50} height={50} alt="Play Icon" />
-            <Image src={FavIcon} width={30} height={30} alt="Play Icon" />
-          </div>
-        </div>
-        <div className={styles.description}>
-          <div>
-            <p className={`${styles.speech__name} regular__text `}>Noun</p>
-            <span className={styles.line}>Test</span>
-          </div>
-          <div className={styles.meaning}>
-            <h3>Meaning</h3>
-            <ul>
-              <li className="small__text">
-                A foodstuff made by baking dough made from cereals.
-              </li>
-              <li className="small__text">
-                Food; sustenance; support of life, in general.
-              </li>
-              <li className="small__text">Any variety of bread.</li>
-            </ul>
-          </div>
-          <div className={`${styles.synonyms}`}>
-            <h3>Synonyms</h3>
-            <span>Bread</span>
-            <span>Bread</span>
-            <span>Bread</span>
-          </div>
-        </div>
-        <div className={styles.description}>
-          <div>
-            <p className={`${styles.speech__name} regular__text `}>Verb</p>
-            <span className={styles.line}>Test</span>
-          </div>
-          <div className={styles.meaning}>
-            <h3>Meaning</h3>
-            <ul>
-              <li className="small__text">
-                A foodstuff made by baking dough made from cereals.
-              </li>
-              <li className="small__text">
-                Food; sustenance; support of life, in general.
-              </li>
-              <li className="small__text">Any variety of bread.</li>
-            </ul>
-          </div>
-        </div>
-        <div className={styles.source}>
-          <span>Source</span>
-          <Link href="#">https://en.wiktionary.org/wiki/keyboard</Link>
-        </div>
-      </div>
-
-      
-      <div className={styles.user__data}>
-        <div className={styles.upper__section}></div>
-        <div className={styles.lower__section}>
-          <div className={styles.image__container}>
-            <Image src={Avatar} alt="Avatar" width={"auto"} height={"auto"} />
-          </div>
-          <div className={styles.user__details}>
-            <h2>DaiveedJay</h2>
-            <p>
-              <Image src={StarIcon} alt="Star Icon" width={15} height={15} />
-              Daily Streak: 2
-            </p>
-            <p>
-              <Image
-                src={GlassesIcon}
-                alt="Glasses Icon"
-                width={15}
-                height={15}
-              />
-              Quiz Points: 17
-            </p>
-            <button>Log out</button>
-          </div>
-        </div>
-      </div> */
-}
-
-// TODO
-// const handlePlay = (data) => {
-//     let audioUrl = null;
-
-//     data?.[0]?.phonetics?.forEach((phonetic) => {
-//       if (phonetic.audio && phonetic.audio.trim() !== "" && !audioUrl) {
-//         audioUrl = phonetic.audio;
-//       }
-//     });
-
-//     setAudio(audioUrl && audioUrl.trim() !== "");
-
-//     if (audioUrl) {
-//       const audio = new Audio(audioUrl);
-//       audio.play();
-//     }
-//   };

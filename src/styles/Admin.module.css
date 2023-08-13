@@ -1,33 +1,26 @@
 .Admin__container {
-  /* border: 2px solid red; */
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow-y: scroll;
+  padding: 2rem;
 }
 
 .user__data {
   z-index: 50;
-  /* border: 2px solid var(--primary-color); */
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.05); */
   box-shadow: -3px 5px 5px var(--light-box-shadow),
     3px -5px 5px var(--light-box-shadow);
 
   border-radius: 10px;
-  width: min(100%, 350px);
-  height: min(100%, 450px);
+  width: min(100%, 35rem);
+  height: min(100%, 45rem);
   margin: 0 auto;
-
-  /* justify-self: flex-start; */
 }
 
-/* .user__data > * {
-  border: 2px solid black;
-} */
 .upper__section {
   flex: 1;
   background-color: var(--primary-light);
@@ -40,15 +33,13 @@
 
 .image__container {
   outline: 5px solid var(--text-color);
-  width: 125px;
-  height: 125px;
+  width: 12.5rem;
+  height: 12.5rem;
   border-radius: 50%;
-  /*  */
   position: absolute;
   top: 0;
   transform: translate(-50%, -50%);
   left: 50%;
-  /* border: 2px solid red; */
 }
 .image__item {
   width: 100%;
@@ -99,7 +90,7 @@
 .user__details {
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
+  padding: 2rem;
 
   height: 100%;
   gap: 1rem;
@@ -112,15 +103,11 @@
   font-family: var(--InconBold);
   font-size: 3rem;
   margin-bottom: 1rem;
-  /* color: var(--text-dark); */
-  /* color: var(--primary-color); */
 }
 
 .user__details p {
   font-size: 1.6rem;
   font-family: var(--InconReg);
-  /* color: var(--gray-primary); */
-  /* color: var(--text-dark); */
   display: flex;
   align-items: center;
   gap: 7.5px;
@@ -143,4 +130,31 @@
   background: var(--error);
   border-color: var(--error);
   color: var(--gray-light);
+}
+
+/* Under 375px */
+@media screen and (max-width: 23.4375em) {
+  .image__container {
+    outline: 5px solid var(--text-color);
+    width: 10rem;
+    height: 10rem;
+  }
+  .Admin__container {
+    padding: 1rem;
+  }
+  .user__data {
+    height: 100%;
+  }
+
+  .user__details {
+    padding: 0 1rem;
+  }
+
+  .user__details p {
+    font-size: 1.4rem;
+  }
+
+  .upper__section {
+    flex: 0.75;
+  }
 }

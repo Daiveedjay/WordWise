@@ -4,6 +4,8 @@ import "@/styles/globals.css";
 import { FontProvider } from "@/context/FontContext";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { QuizProvider } from "@/context/QuizContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -12,6 +14,7 @@ export default function App({ Component, pageProps }) {
         <DataProvider>
           <FontProvider>
             <QuizProvider>
+              <ToastContainer autoClose={2500} />
               <Component {...pageProps} />
             </QuizProvider>
           </FontProvider>

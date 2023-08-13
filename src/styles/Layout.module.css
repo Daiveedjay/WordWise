@@ -20,8 +20,10 @@
 .main__section {
   /* box-shadow: -3px -5px 5px var(--light-box-shadow); */
   box-shadow: -1.5px -3px 3px var(--light-box-shadow);
+  /* box-shadow: 2px 5px 5px red; */
   border-top-left-radius: 10px;
   position: relative;
+  /* border: 2px solid red; */
   overflow-y: scroll;
 }
 
@@ -161,8 +163,9 @@
 
 /* Under 375px */
 @media screen and (max-width: 23.4375em) {
+  .utility__header {
+  }
 }
-
 /* aspect-ratio: 1/1; */
 /* clip-path: polygon(0 6%, 1% 53%, 96% 34%, 90% 90%, 42% 100%, 55% 7%); */
 /* clip-path: circle(50% at 50% 50%); */

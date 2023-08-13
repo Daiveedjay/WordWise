@@ -3,8 +3,7 @@ import { useState } from "react";
 import styles from "@/styles/Search.module.css";
 import { useData } from "@/context/DataContext";
 import { FaSearch } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,10 +27,10 @@ export default function Search() {
   };
   return (
     <>
-      <ToastContainer />
       <form onSubmit={handleSubmit} className={styles.search__component}>
         <input
           type="text"
+          placeholder="Get curious, find a word..."
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
         />

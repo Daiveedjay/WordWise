@@ -115,9 +115,9 @@
 
 /* Under 550px */
 @media screen and (max-width: 34.375em) {
-  .nav__component {
+  /* .nav__component {
     gap: 2rem;
-  }
+  } */
 }
 
 /* Under 375px */

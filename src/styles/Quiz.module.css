@@ -1,5 +1,4 @@
 .quiz__page {
-  /* border: 2px solid red; */
   height: 100%;
   position: relative;
   z-index: 50;
@@ -21,7 +20,6 @@
 
 .quiz__button {
   all: unset;
-  /* border: 2px solid red; */
   padding: 1rem 2rem;
   border-radius: 5px;
   cursor: pointer;
@@ -137,4 +135,14 @@
 
 /* Under 550px */
 @media screen and (max-width: 34.375em) {
+  .quiz__result {
+    padding: 2rem;
+  }
+}
+
+/* Under 375px */
+@media screen and (max-width: 23.4375em) {
+  .quiz__result {
+    padding: 1rem;
+  }
 }

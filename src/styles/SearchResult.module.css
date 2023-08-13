@@ -73,7 +73,8 @@
   margin: 2rem 0;
   display: flex;
   align-items: center;
-  gap: 3rem;
+  column-gap: 3rem;
+  row-gap: 1rem;
   flex-wrap: wrap;
 }
 
@@ -157,10 +158,25 @@
   .phonetic {
     font-size: 1.75rem;
   }
+
+  .play__container svg {
+    font-size: 4rem;
+  }
+
+  .play__container img {
+    width: 3rem;
+  }
 }
 
 /* */
 
 /* Under 375px */
 @media screen and (max-width: 23.4375em) {
+  .play__container svg {
+    font-size: 3rem;
+  }
+
+  .play__container img {
+    width: 2.5rem;
+  }
 }
