@@ -38,7 +38,7 @@ export default function Layout({ title, keywords, description, children }) {
 
   return (
     <>
-      {
+      {user && (
         <div className={`${styles.Layout__container} ${mode} `}>
           <Head>
             <title>{title}</title>
@@ -88,7 +88,7 @@ export default function Layout({ title, keywords, description, children }) {
             </motion.main>
           </AnimatePresence>
         </div>
-      }
+      )}
     </>
   );
 }

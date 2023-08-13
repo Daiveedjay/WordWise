@@ -1,7 +1,8 @@
 import Layout from "@/components/Layout";
 import LoadingComponent from "@/components/Loading";
 import { useData } from "@/context/DataContext";
-import BaseAnimation from "../../../public/media/Walking_pencil.json";
+import LoadingAnimation from "../../../public/media/Loading_animation.json";
+// import BaseAnimation from "../../../public/media/Walking_pencil.json";
 import styles from "@/styles/Utility.module.css";
 import { useRouter } from "next/router";
 
@@ -24,7 +25,7 @@ export default function HistoryPage() {
             <h2 className="utility__header loading__header">
               No words searched, search now...
             </h2>
-            <LoadingComponent LoadingAnimation={BaseAnimation} />
+            <LoadingComponent LoadingAnimation={LoadingAnimation} />
           </>
         )}
 

@@ -16,7 +16,6 @@ import LoadingComponent from "./Loading";
 import LoadingAnimation from "../../public/media/Loading_animation.json";
 import BaseAnimation from "../../public/media/Walking_pencil.json";
 
-import {  toast } from "react-toastify";
 
 
 export default function SearchResult() {
@@ -110,7 +109,7 @@ export default function SearchResult() {
           >
             No words searched, search now...
           </h2>
-          <LoadingComponent LoadingAnimation={BaseAnimation} />
+          <LoadingComponent LoadingAnimation={LoadingAnimation} />
         </>
       )}
 

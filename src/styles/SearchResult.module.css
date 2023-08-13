@@ -135,12 +135,9 @@
 
 /* Under 550px */
 @media screen and (max-width: 34.375em) {
-  .Search__results {
-    padding: 0 1rem;
-  }
   .daily__word {
     text-align: left;
-    padding: 0 1rem;
+    padding: 0 2rem;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
   }
@@ -172,6 +169,13 @@
 
 /* Under 375px */
 @media screen and (max-width: 23.4375em) {
+  .Search__results {
+    padding: 0 1rem;
+  }
+
+  .daily__word {
+    padding: 0 1rem;
+  }
   .play__container svg {
     font-size: 3rem;
   }
