@@ -25,7 +25,7 @@ export default function HistoryPage() {
             <h2 className="utility__header loading__header">
               No words searched, search now...
             </h2>
-            <LoadingComponent LoadingAnimation={LoadingAnimation} />
+            {/* <LoadingComponent LoadingAnimation={LoadingAnimation} /> */}
           </>
         )}
 

@@ -174,7 +174,7 @@ export default function DailyWord() {
             <h2 className="utility__header loading__header">
               Your daily word is loading...
             </h2>
-            <LoadingComponent LoadingAnimation={LoadingAnimation} />
+            {/* <LoadingComponent LoadingAnimation={LoadingAnimation} /> */}
           </>
         )}
         {wordDetails && (

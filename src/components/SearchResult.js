@@ -14,9 +14,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import LoadingComponent from "./Loading";
 
 import LoadingAnimation from "../../public/media/Loading_animation.json";
-import BaseAnimation from "../../public/media/Walking_pencil.json";
-
-
+// import BaseAnimation from "../../public/media/Walking_pencil.json";
 
 export default function SearchResult() {
   const { data, isPending, error, fetchData } = useData();
@@ -100,7 +98,6 @@ export default function SearchResult() {
   const isFavorited = favouriteItems.includes(data?.[0]?.word);
   return (
     <div className={`${styles.search__component}`}>
-      
       {!data && (
         <>
           <h2
@@ -109,7 +106,7 @@ export default function SearchResult() {
           >
             No words searched, search now...
           </h2>
-          <LoadingComponent LoadingAnimation={LoadingAnimation} />
+          {/* <LoadingComponent LoadingAnimation={LoadingAnimation} /> */}
         </>
       )}
 

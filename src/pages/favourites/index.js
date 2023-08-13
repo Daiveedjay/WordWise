@@ -33,7 +33,7 @@ export default function FavouritesPage() {
             <h2 className="utility__header loading__header">
               You have no favourite words yet, add some now
             </h2>
-            <LoadingComponent LoadingAnimation={LoadingAnimation} />
+            {/* <LoadingComponent LoadingAnimation={LoadingAnimation} /> */}
           </>
         )}
         {isPending && (

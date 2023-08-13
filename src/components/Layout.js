@@ -71,15 +71,15 @@ export default function Layout({ title, keywords, description, children }) {
               variants={{
                 initialState: {
                   opacity: 0,
-                  x: "100%",
+                  // x: "100%",
                 },
                 animateState: {
                   opacity: 1,
-                  x: "0%",
+                  // x: "0%",
                 },
                 exitState: {
                   opacity: 0,
-                  x: "-100%",
+                  // x: "-100%",
                 },
               }}
               className={`${styles.main__section} ${font}`}
