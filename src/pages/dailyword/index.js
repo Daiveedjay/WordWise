@@ -167,7 +167,11 @@ export default function DailyWord() {
   }, [user]);
 
   return (
-    <Layout>
+    <Layout
+      title={"WordWise - Daily Word"}
+      description={"Discover a new word every day with WordWise."}
+      keywords={"daily word, word of the day, vocabulary, definitions, app"}
+    >
       <main className={styles.dailyword__component}>
         {!wordDetails && (
           <>

@@ -127,7 +127,11 @@ export default function AdminPage() {
   } = useQuizContext();
 
   return (
-    <Layout>
+    <Layout
+      title={"WordWise - Admin Dashboard"}
+      description={"Manage and administer your WordWise application."}
+      keywords={"admin, dashboard, manage, app administration, tools"}
+    >
       <div className={styles.Admin__container}>
         <div className={styles.user__data}>
           <div className={styles.upper__section}></div>

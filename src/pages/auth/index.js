@@ -208,3 +208,9 @@ export default function AuthPage() {
     </>
   );
 }
+
+AuthPage.defaultProps = {
+  title: "WordWise - Authentication",
+  description: "Sign up or log in to your WordWise account.",
+  keywords: "authentication, sign up, log in, user account, app",
+};

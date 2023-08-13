@@ -25,7 +25,11 @@ export default function FavouritesPage() {
   console.log("My docs", documents);
 
   return (
-    <Layout>
+    <Layout
+      title={"WordWise - Your Favourite Words"}
+      description={"Manage your favourite words and definitions with WordWise."}
+      keywords={"favourites, words, definitions, vocabulary, app"}
+    >
       <div className={styles.utility__component}>
         {error && <div>{error}</div>}
         {!isPending && documents?.length <= 0 && (

@@ -147,7 +147,11 @@ function QuizPage({ initialData, error }) {
   };
 
   return (
-    <Layout title={"Quiz"}>
+    <Layout
+      title={"WordWise - Vocabulary Quiz"}
+      description={"Test your urban knowledge with fun quizzes on WordWise."}
+      keywords={"knowledge quiz, learning, app"}
+    >
       <div className={styles.quiz__page}>
         {error && (
           <div className={`${styles.error} `}>
