@@ -2,40 +2,42 @@ import React, { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Quiz.module.css";
 import { toast } from "react-toastify";
-
+import QuizData from "@/quiz.json";
 import { useQuizContext } from "@/context/QuizContext";
 import { useRouter } from "next/router";
+function getRandomIndex(maxIndex) {
+  return Math.floor(Math.random() * maxIndex);
+}
 
-function QuizPage({ initialData, error }) {
-  console.log(initialData);
-  const [data, setData] = useState(initialData);
-  const questions = data?.slice(0, 2);
+const QUESTIONS_COUNT = 3;
+function QuizPage() {
+  const [data] = useState(QuizData); // Use the imported JSON data
+
+  const [questions, setQuestions] = useState([]);
+  // const questions = data?.slice(0, 2);
+  // console.log(questions);
+  useEffect(() => {
+    const maxIndex = data.length - QUESTIONS_COUNT;
+    let index1 = getRandomIndex(maxIndex);
+    let index2 = index1 + QUESTIONS_COUNT - 1;
+
+    // Swap indexes if index2 is smaller than index1
+    if (index2 < index1) [index1, index2] = [index2, index1];
+
+    const newQuestions = data?.slice(index1, index2 + 1);
+
+    // Set the questions in state
+    setQuestions(newQuestions);
+
+    // Update your context or state here
+  }, [data]);
+
+  console.log(questions);
+
   const router = useRouter();
 
-  const {
-    correctAnswersCount,
-    setCorrectAnswersCount,
-    setQuestionsAttemptedCount,
-  } = useQuizContext();
-
-  const fetchNewData = async () => {
-    try {
-      const timestamp = new Date().getTime();
-      const res = await fetch(
-        `https://the-trivia-api.com/v2/questions?timestamp=${timestamp}`
-      );
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const newData = await res.json();
-      setData(newData);
-    } catch (error) {
-      console.error("An error occurred while fetching data:", error);
-      // You can handle the error here, e.g., show an error message to the user
-    }
-  };
+  const { setCorrectAnswersCount, setQuestionsAttemptedCount } =
+    useQuizContext();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -93,7 +95,8 @@ function QuizPage({ initialData, error }) {
     }
     setSelectedAnswer(null);
   };
-  // const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+
+  const [currentQuizAnswers, setCurrentQuizAnswers] = useState(0);
 
   const handleSubmit = () => {
     console.log(allAnswers);
@@ -117,6 +120,7 @@ function QuizPage({ initialData, error }) {
       setIsAnswerCorrect(true);
       toast.success("Correct answer!");
       setCorrectAnswersCount((prevCount) => prevCount + 1);
+      setCurrentQuizAnswers((prevCount) => prevCount + 1);
     } else {
       setIsAnswerCorrect(false);
       toast.error("Incorrect answer");
@@ -137,9 +141,25 @@ function QuizPage({ initialData, error }) {
     setAreButtonsDisabled(false);
     setIsSubmitClicked(false);
     setQuizCompleted(false);
+    setCurrentQuizAnswers(0);
 
-    // Fetch new data and update questions
-    fetchNewData();
+    // Re-generate random questions
+    let index1 = getRandomIndex(data.length);
+    let index2 = index1 + QUESTIONS_COUNT - 1;
+
+    if (index2 < index1) [index1, index2] = [index2, index1];
+
+    const newQuestions = data?.slice(index1, index2 + 1);
+    setQuestions(newQuestions);
+
+    // Re-shuffle answers using the JSON data
+    if (questions[currentQuestion]?.correctAnswer) {
+      const shuffledAnswers = shuffleAnswers([
+        questions[currentQuestion]?.correctAnswer,
+        ...questions[currentQuestion]?.incorrectAnswers,
+      ]);
+      setAllAnswers(shuffledAnswers);
+    }
   };
 
   const handleStats = () => {
@@ -149,19 +169,19 @@ function QuizPage({ initialData, error }) {
   return (
     <Layout
       title={"WordWise - Vocabulary Quiz"}
-      description={"Test your urban knowledge with fun quizzes on WordWise."}
-      keywords={"knowledge quiz, learning, app"}
+      description={"Test your vocabulary with fun quizzes on WordWise."}
+      keywords={"vocabulary quiz, learning, app"}
     >
       <div className={styles.quiz__page}>
-        {error && (
+        {/* {error && (
           <div className={`${styles.error} `}>
             <h1>An error occured while fetching your data</h1>
             <button className={styles.restart__quiz} onClick={fetchNewData}>
               Try again
             </button>
           </div>
-        )}
-        {!error && (
+        )} */}
+        {
           <>
             {!quizCompleted && currentQuestion <= questions?.length - 1 ? (
               <div className={styles.quiz__question}>
@@ -232,12 +252,11 @@ function QuizPage({ initialData, error }) {
                       <button
                         className={styles.next__button}
                         onClick={handleNextQuestion}
-                        // disabled={
-                        //   isAnswerSubmitted === false || areButtonsDisabled === true
-                        // }
                         disabled={!isSubmitClicked}
                       >
-                        Next Question
+                        {currentQuestion === questions.length - 1
+                          ? "Finish"
+                          : "Next Question"}
                       </button>
                     )}
                   </div>
@@ -249,14 +268,15 @@ function QuizPage({ initialData, error }) {
                   Congratulations! You have completed the quiz.
                 </h2>
                 <p style={{ textAlign: "center" }} className="small__text">
-                  You answered <span>{correctAnswersCount} </span>out of{" "}
+                  You answered <span>{currentQuizAnswers} </span>out of{" "}
                   <span>{questions?.length} </span>
                   questions correctly.
                 </p>
                 <p className="small__text">
                   Percentage pass:{" "}
                   <span>
-                    {(correctAnswersCount / questions?.length) * 100}%
+                    {Math.floor((currentQuizAnswers / questions?.length) * 100)}
+                    %
                   </span>
                 </p>
                 <button
@@ -271,26 +291,10 @@ function QuizPage({ initialData, error }) {
               </div>
             )}
           </>
-        )}
+        }
       </div>
     </Layout>
   );
 }
 
 export default QuizPage;
-
-export async function getServerSideProps() {
-  try {
-    const res = await fetch(`https://the-trivia-api.com/v2/questions`);
-    const data = await res.json();
-
-    return {
-      props: { initialData: data },
-    };
-  } catch (error) {
-    console.error("Error fetching initial data:", error);
-    return {
-      props: { initialData: null, error: true },
-    };
-  }
-}

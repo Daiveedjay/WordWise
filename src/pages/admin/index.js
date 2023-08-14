@@ -10,6 +10,8 @@ import { useEffect, useMemo, useState } from "react";
 import { FaStar, FaTools, FaSave } from "react-icons/fa";
 import { useQuizContext } from "@/context/QuizContext";
 import { useData } from "@/context/DataContext";
+import ThemeToggle from "@/components/ThemeToggle";
+import Dropdown from "@/components/Dropdown";
 
 export default function AdminPage() {
   const { logout } = useLogout();
@@ -134,7 +136,12 @@ export default function AdminPage() {
     >
       <div className={styles.Admin__container}>
         <div className={styles.user__data}>
-          <div className={styles.upper__section}></div>
+          <div className={styles.upper__section}>
+            <div className={styles.admin__utils}>
+              {/* <Dropdown /> */}
+              <ThemeToggle />
+            </div>
+          </div>
           <div className={styles.lower__section}>
             <div className={styles.image__container}>
               <div className={styles.image__item}>

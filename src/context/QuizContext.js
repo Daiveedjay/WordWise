@@ -95,3 +95,62 @@ export const QuizProvider = ({ children }) => {
     <QuizContext.Provider value={contextValue}>{children}</QuizContext.Provider>
   );
 };
+
+// TODO LS Version
+// import { createContext, useContext, useState, useEffect } from "react";
+// import { useAuthContext } from "@/hooks/useAuthContext";
+
+// const QuizContext = createContext();
+
+// export const useQuizContext = () => {
+//   return useContext(QuizContext);
+// };
+
+// export const QuizProvider = ({ children }) => {
+//   const { user } = useAuthContext();
+//   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+//   const [questionsAttemptedCount, setQuestionsAttemptedCount] = useState(0);
+
+//   useEffect(() => {
+//     // Load quiz data from local storage
+//     const storedData = localStorage.getItem(`quizdata-${user?.uid}`);
+//     if (storedData) {
+//       const {
+//         correctAnswersCount: storedCorrectAnswersCount,
+//         questionsAttemptedCount: storedQuestionsAttemptedCount,
+//       } = JSON.parse(storedData);
+//       setCorrectAnswersCount(storedCorrectAnswersCount);
+//       setQuestionsAttemptedCount(storedQuestionsAttemptedCount);
+//     }
+//   }, [user?.uid]);
+
+//   useEffect(() => {
+//     // Update local storage when statistics change
+//     if (user?.uid) {
+//       const data = {
+//         correctAnswersCount,
+//         questionsAttemptedCount,
+//       };
+//       localStorage.setItem(`quizdata-${user?.uid}`, JSON.stringify(data));
+//     }
+//   }, [correctAnswersCount, questionsAttemptedCount, user?.uid]);
+
+//   const contextValue = {
+//     correctAnswersCount,
+//     setCorrectAnswersCount,
+//     questionsAttemptedCount,
+//     setQuestionsAttemptedCount,
+//   };
+
+//   useEffect(() => {
+//     console.log(
+//       "------Context Value Indicator-----------",
+//       correctAnswersCount,
+//       questionsAttemptedCount
+//     );
+//   }, [correctAnswersCount, questionsAttemptedCount]);
+
+//   return (
+//     <QuizContext.Provider value={contextValue}>{children}</QuizContext.Provider>
+//   );
+// };

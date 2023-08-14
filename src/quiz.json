@@ -1,0 +1,459 @@
+[
+  {
+    "id": "1",
+    "question": {
+      "text": "Select the sentence with correct subject-verb agreement:"
+    },
+    "correctAnswer": "The dogs are barking loudly.",
+    "incorrectAnswers": [
+      "The dogs is barking loudly.",
+      "The dog are barking loudly.",
+      "The dog is barking loudly."
+    ]
+  },
+  {
+    "id": "2",
+    "question": {
+      "text": "Choose the correct spelling: occurence, occurrance, occurrence, occurence"
+    },
+    "correctAnswer": "occurrence",
+    "incorrectAnswers": ["occurrance", "occurence", "occurence"]
+  },
+  {
+    "id": "3",
+    "question": {
+      "text": "What is the synonym for 'abundant'?"
+    },
+    "correctAnswer": "plentiful",
+    "incorrectAnswers": ["scarce", "limited", "sparse"]
+  },
+  {
+    "id": "4",
+    "question": {
+      "text": "Which sentence uses 'their' correctly?"
+    },
+    "correctAnswer": "They left their books at home.",
+    "incorrectAnswers": [
+      "They're going to the store.",
+      "There going to the store.",
+      "Their going to the store."
+    ]
+  },
+  {
+    "id": "5",
+    "question": {
+      "text": "Choose the correct antonym for 'benevolent':"
+    },
+    "correctAnswer": "malevolent",
+    "incorrectAnswers": ["kind", "generous", "charitable"]
+  },
+  {
+    "id": "6",
+    "question": {
+      "text": "Which sentence is grammatically correct?"
+    },
+    "correctAnswer": "She plays the piano well.",
+    "incorrectAnswers": [
+      "She good at playing piano.",
+      "She plays good the piano.",
+      "She play the piano good."
+    ]
+  },
+  {
+    "id": "7",
+    "question": {
+      "text": "What is the plural form of 'child'?"
+    },
+    "correctAnswer": "children",
+    "incorrectAnswers": ["childs", "childes", "childies"]
+  },
+  {
+    "id": "8",
+    "question": {
+      "text": "Identify the sentence with correct punctuation:"
+    },
+    "correctAnswer": "Can you pass the salt?",
+    "incorrectAnswers": [
+      "Can you pass the salt.",
+      "Can you pass the salt",
+      "Can you pass, the salt?"
+    ]
+  },
+  {
+    "id": "9",
+    "question": {
+      "text": "Which word is a preposition?"
+    },
+    "correctAnswer": "under",
+    "incorrectAnswers": ["run", "jump", "laugh"]
+  },
+  {
+    "id": "10",
+    "question": {
+      "text": "What is the past tense of 'eat'?"
+    },
+    "correctAnswer": "ate",
+    "incorrectAnswers": ["eaten", "eats", "eating"]
+  },
+
+  {
+    "id": "11",
+    "question": {
+      "text": "What is the plural of 'ox'?"
+    },
+    "correctAnswer": "oxen",
+    "incorrectAnswers": ["oxes", "oxies", "oxies"]
+  },
+  {
+    "id": "12",
+    "question": {
+      "text": "Choose the correct form of the verb: She _____ to the store yesterday."
+    },
+    "correctAnswer": "went",
+    "incorrectAnswers": ["go", "goed", "going"]
+  },
+  {
+    "id": "13",
+    "question": {
+      "text": "What is the synonym for 'hilarious'?"
+    },
+    "correctAnswer": "amusing",
+    "incorrectAnswers": ["serious", "sad", "boring"]
+  },
+  {
+    "id": "14",
+    "question": {
+      "text": "Select the correct sentence:"
+    },
+    "correctAnswer": "I cannot believe it's already noon.",
+    "incorrectAnswers": [
+      "I can not believe it's already noon.",
+      "I can't believe it's already noon.",
+      "I cant believe it's already noon."
+    ]
+  },
+  {
+    "id": "15",
+    "question": {
+      "text": "What is the antonym for 'brave'?"
+    },
+    "correctAnswer": "cowardly",
+    "incorrectAnswers": ["fearless", "strong", "confident"]
+  },
+  {
+    "id": "16",
+    "question": {
+      "text": "Which of the following is a comparative adjective?"
+    },
+    "correctAnswer": "smarter",
+    "incorrectAnswers": ["smartly", "smartest", "smart"]
+  },
+  {
+    "id": "17",
+    "question": {
+      "text": "What is the correct form of the possessive pronoun?"
+    },
+    "correctAnswer": "yours",
+    "incorrectAnswers": ["your's", "your", "you"]
+  },
+  {
+    "id": "18",
+    "question": {
+      "text": "Choose the correct sentence with parallel structure:"
+    },
+    "correctAnswer": "She enjoys hiking, swimming, and biking.",
+    "incorrectAnswers": [
+      "She enjoys to hike, swim, and bike.",
+      "She enjoys hike, swim, and bike.",
+      "She enjoys hiking, swim, and biking."
+    ]
+  },
+  {
+    "id": "19",
+    "question": {
+      "text": "What is the past participle of 'write'?"
+    },
+    "correctAnswer": "written",
+    "incorrectAnswers": ["writed", "wrote", "writing"]
+  },
+  {
+    "id": "20",
+    "question": {
+      "text": "Choose the correct adverb: She sings very _____."
+    },
+    "correctAnswer": "well",
+    "incorrectAnswers": ["good", "bad", "nicely"]
+  },
+  {
+    "id": "21",
+    "question": {
+      "text": "Which word is a conjunction?"
+    },
+    "correctAnswer": "although",
+    "incorrectAnswers": ["quickly", "table", "laughter"]
+  },
+  {
+    "id": "22",
+    "question": {
+      "text": "What is the correct form of the possessive form of 'dog'?"
+    },
+    "correctAnswer": "dog's",
+    "incorrectAnswers": ["dogs", "doges", "dogeses"]
+  },
+  {
+    "id": "23",
+    "question": {
+      "text": "What is the synonym for 'confused'?"
+    },
+    "correctAnswer": "bewildered",
+    "incorrectAnswers": ["clear", "certain", "organized"]
+  },
+  {
+    "id": "24",
+    "question": {
+      "text": "Choose the sentence with correct capitalization:"
+    },
+    "correctAnswer": "The Eiffel Tower is located in Paris, France.",
+    "incorrectAnswers": [
+      "the eiffel tower is located in Paris, France.",
+      "The eiffel tower is located in paris, france.",
+      "The Eiffel tower is located in Paris, france."
+    ]
+  },
+  {
+    "id": "25",
+    "question": {
+      "text": "What is the antonym for 'generous'?"
+    },
+    "correctAnswer": "stingy",
+    "incorrectAnswers": ["kind", "charitable", "benevolent"]
+  },
+  {
+    "id": "26",
+    "question": {
+      "text": "Select the sentence with correct subject-verb agreement:"
+    },
+    "correctAnswer": "The cat purrs loudly.",
+    "incorrectAnswers": [
+      "The cats purrs loudly.",
+      "The cat purr loudly.",
+      "The cats purr loudly."
+    ]
+  },
+  {
+    "id": "27",
+    "question": {
+      "text": "Which word is a demonstrative pronoun?"
+    },
+    "correctAnswer": "this",
+    "incorrectAnswers": ["quickly", "jumped", "is"]
+  },
+  {
+    "id": "28",
+    "question": {
+      "text": "Identify the correctly punctuated sentence:"
+    },
+    "correctAnswer": "She wanted to visit Italy, but she couldn't afford the trip.",
+    "incorrectAnswers": [
+      "She wanted to visit Italy, but she couldnt afford the trip.",
+      "She wanted to visit Italy but she couldn't afford the trip.",
+      "She wanted to visit Italy but she couldnt afford the trip."
+    ]
+  },
+  {
+    "id": "29",
+    "question": {
+      "text": "What is the past tense of 'run'?"
+    },
+    "correctAnswer": "ran",
+    "incorrectAnswers": ["runned", "running", "runs"]
+  },
+  {
+    "id": "30",
+    "question": {
+      "text": "Choose the correct adjective: The cake is _____ delicious."
+    },
+    "correctAnswer": "extremely",
+    "incorrectAnswers": ["delicate", "delightful", "dull"]
+  },
+  {
+    "id": "31",
+    "question": {
+      "text": "Which word is an interjection?"
+    },
+    "correctAnswer": "Wow",
+    "incorrectAnswers": ["running", "cat", "delicious"]
+  },
+  {
+    "id": "32",
+    "question": {
+      "text": "What is the correct possessive form of 'children'?"
+    },
+    "correctAnswer": "children's",
+    "incorrectAnswers": ["childs", "childrens", "child's"]
+  },
+  {
+    "id": "33",
+    "question": {
+      "text": "What is the synonym for 'courageous'?"
+    },
+    "correctAnswer": "valiant",
+    "incorrectAnswers": ["scared", "weak", "timid"]
+  },
+  {
+    "id": "34",
+    "question": {
+      "text": "Select the sentence with correct verb tense:"
+    },
+    "correctAnswer": "She has already finished her homework.",
+    "incorrectAnswers": [
+      "She already finished her homework.",
+      "She already finish her homework.",
+      "She finish her homework already."
+    ]
+  },
+  {
+    "id": "35",
+    "question": {
+      "text": "What is the antonym for 'victory'?"
+    },
+    "correctAnswer": "defeat",
+    "incorrectAnswers": ["win", "success", "triumph"]
+  },
+  {
+    "id": "36",
+    "question": {
+      "text": "Which of the following is a superlative adjective?"
+    },
+    "correctAnswer": "tallest",
+    "incorrectAnswers": ["tall", "taller", "tallness"]
+  },
+  {
+    "id": "37",
+    "question": {
+      "text": "What is the correct form of the reflexive pronoun?"
+    },
+    "correctAnswer": "myself",
+    "incorrectAnswers": ["me", "mine", "I"]
+  },
+  {
+    "id": "38",
+    "question": {
+      "text": "Choose the sentence with correct apostrophe use:"
+    },
+    "correctAnswer": "John's car is parked outside.",
+    "incorrectAnswers": [
+      "Johns car is parked outside.",
+      "Johns' car is parked outside.",
+      "John car's is parked outside."
+    ]
+  },
+  {
+    "id": "39",
+    "question": {
+      "text": "What is the past participle of 'swim'?"
+    },
+    "correctAnswer": "swum",
+    "incorrectAnswers": ["swam", "swimming", "swemed"]
+  },
+  {
+    "id": "40",
+    "question": {
+      "text": "Choose the correct adverb: He speaks very _____."
+    },
+    "correctAnswer": "clearly",
+    "incorrectAnswers": ["clear", "clearness", "clearlyness"]
+  },
+  {
+    "id": "41",
+    "question": {
+      "text": "Which word is a relative pronoun?"
+    },
+    "correctAnswer": "who",
+    "incorrectAnswers": ["quickly", "jumped", "run"]
+  },
+  {
+    "id": "42",
+    "question": {
+      "text": "What is the correct plural of 'deer'?"
+    },
+    "correctAnswer": "deer",
+    "incorrectAnswers": ["deers", "deeres", "deeress"]
+  },
+  {
+    "id": "43",
+    "question": {
+      "text": "What is the synonym for 'enthusiastic'?"
+    },
+    "correctAnswer": "eager",
+    "incorrectAnswers": ["uninterested", "bored", "indifferent"]
+  },
+  {
+    "id": "44",
+    "question": {
+      "text": "Select the sentence with correct use of articles:"
+    },
+    "correctAnswer": "An apple a day keeps the doctor away.",
+    "incorrectAnswers": [
+      "A apple a day keeps the doctor away.",
+      "An apple the day keeps a doctor away.",
+      "A apple the day keeps a doctor away."
+    ]
+  },
+  {
+    "id": "45",
+    "question": {
+      "text": "What is the antonym for 'joyful'?"
+    },
+    "correctAnswer": "mournful",
+    "incorrectAnswers": ["happy", "cheerful", "ecstatic"]
+  },
+  {
+    "id": "46",
+    "question": {
+      "text": "Which sentence uses the correct past perfect tense?"
+    },
+    "correctAnswer": "She had already eaten before the movie started.",
+    "incorrectAnswers": [
+      "She already ate before the movie started.",
+      "She has already eaten before the movie starts.",
+      "She eats already before the movie started."
+    ]
+  },
+  {
+    "id": "47",
+    "question": {
+      "text": "What is the correct form of the indefinite pronoun?"
+    },
+    "correctAnswer": "everyone",
+    "incorrectAnswers": ["everyones", "every one", "everybody"]
+  },
+  {
+    "id": "48",
+    "question": {
+      "text": "Identify the correctly punctuated sentence:"
+    },
+    "correctAnswer": "My sister went to the store; she needed some groceries.",
+    "incorrectAnswers": [
+      "My sister went to the store, she needed some groceries.",
+      "My sister went to the store: she needed some groceries.",
+      "My sister went to the store she needed some groceries."
+    ]
+  },
+  {
+    "id": "49",
+    "question": {
+      "text": "What is the past tense of 'drink'?"
+    },
+    "correctAnswer": "drank",
+    "incorrectAnswers": ["drinked", "drunk", "drinking"]
+  },
+  {
+    "id": "50",
+    "question": {
+      "text": "Choose the correct adjective: The concert was ____ exciting."
+    },
+    "correctAnswer": "incredibly",
+    "incorrectAnswers": ["incredible", "incredibleness", "incrediblely"]
+  }
+]

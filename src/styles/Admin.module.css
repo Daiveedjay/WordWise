@@ -24,6 +24,8 @@
 .upper__section {
   flex: 1;
   background-color: var(--primary-light);
+  display: flex;
+  padding: 1rem;
 }
 
 .lower__section {
@@ -130,6 +132,22 @@
   background: var(--error);
   border-color: var(--error);
   color: var(--gray-light);
+}
+
+.admin__utils {
+  display: none;
+}
+
+/* Under 550px */
+@media screen and (max-width: 34.375em) {
+  .admin__utils {
+    display: flex;
+    width: 100%;
+  }
+
+  .admin__utils > * {
+    display: block !important;
+  }
 }
 
 /* Under 375px */
