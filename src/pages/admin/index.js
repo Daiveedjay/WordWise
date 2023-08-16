@@ -11,7 +11,6 @@ import { FaStar, FaTools, FaSave } from "react-icons/fa";
 import { useQuizContext } from "@/context/QuizContext";
 import { useData } from "@/context/DataContext";
 import ThemeToggle from "@/components/ThemeToggle";
-import Dropdown from "@/components/Dropdown";
 
 export default function AdminPage() {
   const { logout } = useLogout();
@@ -105,11 +104,6 @@ export default function AdminPage() {
     const svg = await fetchSVG(randomString);
     if (svg) {
       setAvatar(svg);
-
-      // Remove the previous SVG data from localStorage
-
-      // Store the new SVG data in localStorage
-      // localStorage.setItem("avatarSVG", svg);
     }
     setShowChangeIcon(true);
   };
@@ -121,12 +115,21 @@ export default function AdminPage() {
     localStorage.setItem("avatarSVG", avatar);
   };
 
-  const {
-    correctAnswersCount,
-    setCorrectAnswersCount,
-    questionsAttemptedCount,
-    setQuestionsAttemptedCount,
-  } = useQuizContext();
+  const { quizData } = useQuizContext();
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [questionsAttemptedCount, setQuestionsAttemptedCount] = useState(0);
+
+  // Fetch the latest data whenever quizData changes
+  useEffect(() => {
+    if (quizData) {
+      setCorrectAnswersCount(quizData.correctAnswersCount);
+      setQuestionsAttemptedCount(quizData.questionsAttemptedCount);
+    }
+
+    console.log("Quizdata--------Admin", quizData);
+  }, [quizData]);
+
+  // Now you can use correctAnswersCount and questionsAttemptedCount safely
 
   return (
     <Layout
@@ -138,7 +141,6 @@ export default function AdminPage() {
         <div className={styles.user__data}>
           <div className={styles.upper__section}>
             <div className={styles.admin__utils}>
-              {/* <Dropdown /> */}
               <ThemeToggle />
             </div>
           </div>

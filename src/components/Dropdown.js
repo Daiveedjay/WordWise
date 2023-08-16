@@ -8,6 +8,7 @@ const options = [
   { label: "Mono", value: "mono" },
   { label: "Serif", value: "serif" },
 ];
+
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);

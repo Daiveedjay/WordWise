@@ -13,7 +13,7 @@ import {
 const navArray = [
   {
     name: "Favourites",
-    icon: <FaHeart fontSize={25} fill="#b7abab" strokeWidth={5} />,
+    icon: <FaHeart fontSize={25} fill="#b7abab" />,
     route: "/favourites",
     active: <FaHeart fill="#a445ed" fontSize={25} />,
   },

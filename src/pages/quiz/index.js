@@ -6,7 +6,7 @@ import QuizData from "@/quiz.json";
 import { useQuizContext } from "@/context/QuizContext";
 import { useRouter } from "next/router";
 
-const QUESTIONS_COUNT = 3;
+const QUESTIONS_COUNT = 2;
 function QuizPage() {
   const [data] = useState(QuizData); // Use the imported JSON data
 
@@ -40,7 +40,7 @@ function QuizPage() {
 
   const router = useRouter();
 
-  const { quizData, setQuizData } = useQuizContext();
+  // const { updateQuizData } = useQuizContext();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -52,14 +52,13 @@ function QuizPage() {
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
+  const [currentCorrectAnswers, setCurrentCorrectAnswers] = useState(0);
+
+  const [currentAttemptedQuestions, setCurrentAttemptedQuestions] = useState(0);
   const questionObj = questions && questions[currentQuestion];
   const questionText = questionObj?.question.text;
   const correctAnswer = questionObj?.correctAnswer;
 
-  const [quizRoundStats, setQuizRoundStats] = useState({
-    correctAnswersCount: 0,
-    questionsAttemptedCount: 0,
-  });
   const [quizCompleted, setQuizCompleted] = useState(false);
 
   const incorrectAnswers = useMemo(() => {
@@ -92,16 +91,8 @@ function QuizPage() {
   const handleNextQuestion = () => {
     if (currentQuestion === questions.length - 1) {
       setQuizCompleted(true);
-
-      // Calculate quiz round stats
-      const newQuizRoundStats = {
-        correctAnswersCount:
-          quizRoundStats.correctAnswersCount + (isAnswerCorrect ? 1 : 0),
-        questionsAttemptedCount: quizRoundStats.questionsAttemptedCount + 1,
-      };
-
-      setQuizRoundStats(newQuizRoundStats);
     }
+
     setAllAnswers([]);
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
@@ -115,38 +106,9 @@ function QuizPage() {
     setSelectedAnswer(null);
   };
 
-  const handleFinish = () => {
-    if (quizCompleted) {
-      // Update global quiz data in context and send to Firebase
-      const updatedQuizData = {
-        correctAnswersCount:
-          quizData.correctAnswersCount + quizRoundStats.correctAnswersCount,
-        questionsAttemptedCount:
-          quizData.questionsAttemptedCount +
-          quizRoundStats.questionsAttemptedCount,
-      };
-
-      setQuizData(updatedQuizData);
-      // TODO: Send updatedQuizData to Firebase
-
-      // Reset quiz round stats
-      setQuizRoundStats({
-        correctAnswersCount: 0,
-        questionsAttemptedCount: 0,
-      });
-
-      // // Navigate to stats page or do other actions
-      // router.push("/admin");
-    }
-  };
-
-  const [currentQuizAnswers, setCurrentQuizAnswers] = useState(0);
-
-  const [currentAttemptedAnswers, setCurrentAttemptedAnswers] = useState(0);
-
   const handleSubmit = () => {
     console.log(allAnswers);
-    allAnswers.forEach((answer) => {
+    allAnswers?.forEach((answer) => {
       if (answer === correctAnswer) {
         const buttonElement = document?.querySelector(
           `[data-text="${answer.replace(/"/g, '\\"')}"]`
@@ -154,7 +116,6 @@ function QuizPage() {
         if (buttonElement) {
           buttonElement.classList.remove("wrong");
           buttonElement.classList.add("correct");
-          console.log("----- The found button ------", buttonElement);
         }
       }
     });
@@ -165,26 +126,14 @@ function QuizPage() {
     if (selectedAnswer === correctAnswer) {
       setIsAnswerCorrect(true);
       toast.success("Correct answer!");
-      setQuizData((prevData) => ({
-        ...prevData,
-        correctAnswersCount: prevData.correctAnswersCount + 1,
-        questionsAttemptedCount: prevData.questionsAttemptedCount + 1,
-      }));
-      setCurrentQuizAnswers((prevCount) => prevCount + 1);
+      setCurrentCorrectAnswers((prevCount) => prevCount + 1);
     } else {
       setIsAnswerCorrect(false);
       toast.error("Incorrect answer");
     }
 
-    setCurrentAttemptedAnswers((prevCount) => prevCount + 1);
-    // Update the questionsAttempted count
-    setQuizData((prevData) => ({
-      ...prevData,
-      questionsAttemptedCount: prevData.questionsAttemptedCount + 1,
-    }));
+    setCurrentAttemptedQuestions((prevCount) => prevCount + 1);
   };
-
-  console.log("Length", currentQuestion, questions?.length);
 
   const handleRestart = () => {
     setCurrentQuestion(0);
@@ -196,7 +145,8 @@ function QuizPage() {
     setAreButtonsDisabled(false);
     setIsSubmitClicked(false);
     setQuizCompleted(false);
-    setCurrentQuizAnswers(0);
+    setCurrentCorrectAnswers(0);
+    setCurrentAttemptedQuestions(0);
 
     // Re-generate random question indices
     const maxIndex = data.length - 1;
@@ -213,6 +163,21 @@ function QuizPage() {
       ]);
       setAllAnswers(shuffledAnswers);
     }
+  };
+
+  const { updateQuizData } = useQuizContext();
+
+  const handleFinish = async () => {
+    setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+    if (currentQuestion === questions.length - 1) {
+      await updateQuizData(currentCorrectAnswers, currentAttemptedQuestions);
+    }
+
+    console.log(
+      "Quiz Values at the quiz end --------",
+      currentCorrectAnswers,
+      currentAttemptedQuestions
+    );
   };
 
   const handleStats = () => {
@@ -269,11 +234,7 @@ function QuizPage() {
 
                 <div className={styles.action__buttons}>
                   <button
-                    onClick={() => {
-                      if (currentQuestion > 0) {
-                        handleRestart();
-                      }
-                    }}
+                    onClick={() => handleRestart()}
                     className={styles.restart__quiz}
                   >
                     Restart Quiz
@@ -294,7 +255,7 @@ function QuizPage() {
                     )}
 
                     {/* TODO FIX ASAP */}
-                    {isAnswerSubmitted &&
+                    {/* {isAnswerSubmitted &&
                       currentQuestion <= questions.length && (
                         <button
                           className={styles.next__button}
@@ -305,6 +266,28 @@ function QuizPage() {
                             ? "Finish"
                             : "Next Question"}
                         </button>
+                      )} */}
+                    {isAnswerSubmitted &&
+                      currentQuestion <= questions.length && (
+                        <>
+                          {currentQuestion === questions.length - 1 ? (
+                            <button
+                              className={styles.next__button}
+                              onClick={handleFinish}
+                              disabled={!isSubmitClicked}
+                            >
+                              Finish
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.next__button}
+                              onClick={handleNextQuestion}
+                              disabled={!isSubmitClicked}
+                            >
+                              Next Question
+                            </button>
+                          )}
+                        </>
                       )}
                   </div>
                 </div>
@@ -315,14 +298,16 @@ function QuizPage() {
                   Congratulations! You have completed the quiz.
                 </h2>
                 <p style={{ textAlign: "center" }} className="small__text">
-                  You answered <span>{currentQuizAnswers} </span>out of{" "}
+                  You answered <span>{currentCorrectAnswers} </span>out of{" "}
                   <span>{questions?.length} </span>
                   questions correctly.
                 </p>
                 <p className="small__text">
                   Percentage pass:{" "}
                   <span>
-                    {Math.floor((currentQuizAnswers / questions?.length) * 100)}
+                    {Math.floor(
+                      (currentCorrectAnswers / questions?.length) * 100
+                    )}
                     %
                   </span>
                 </p>
