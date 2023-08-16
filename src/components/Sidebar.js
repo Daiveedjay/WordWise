@@ -53,6 +53,7 @@ export default function Sidebar() {
           <Link
             href={navItem.route}
             key={navItem.name}
+            aria-label={navItem.name}
             className={`${currentPath === navItem.route ? styles.active : ""}`}
           >
             {currentPath === navItem.route ? (

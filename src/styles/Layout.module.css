@@ -18,12 +18,9 @@
 }
 
 .main__section {
-  /* box-shadow: -3px -5px 5px var(--light-box-shadow); */
   box-shadow: -1.5px -3px 3px var(--light-box-shadow);
-  /* box-shadow: 2px 5px 5px red; */
   border-top-left-radius: 10px;
   position: relative;
-  /* border: 2px solid red; */
   overflow-y: scroll;
 }
 

@@ -5,26 +5,18 @@ import { toast } from "react-toastify";
 import QuizData from "@/quiz.json";
 import { useQuizContext } from "@/context/QuizContext";
 import { useRouter } from "next/router";
-function getRandomIndex(maxIndex) {
-  return Math.floor(Math.random() * maxIndex);
-}
 
 const QUESTIONS_COUNT = 3;
 function QuizPage() {
   const [data] = useState(QuizData); // Use the imported JSON data
 
   const [questions, setQuestions] = useState([]);
-  // const questions = data?.slice(0, 2);
-  // console.log(questions);
+
   useEffect(() => {
-    const maxIndex = data.length - QUESTIONS_COUNT;
-    let index1 = getRandomIndex(maxIndex);
-    let index2 = index1 + QUESTIONS_COUNT - 1;
+    const maxIndex = data.length - 1; // The maximum index in the array
+    const selectedIndices = generateRandomIndices(maxIndex, QUESTIONS_COUNT);
 
-    // Swap indexes if index2 is smaller than index1
-    if (index2 < index1) [index1, index2] = [index2, index1];
-
-    const newQuestions = data?.slice(index1, index2 + 1);
+    const newQuestions = selectedIndices.map((index) => data[index]);
 
     // Set the questions in state
     setQuestions(newQuestions);
@@ -32,12 +24,23 @@ function QuizPage() {
     // Update your context or state here
   }, [data]);
 
+  // Function to generate random unique indices
+  const generateRandomIndices = (maxIndex, count) => {
+    const indices = new Set();
+
+    while (indices.size < count) {
+      const randomIndex = Math.floor(Math.random() * (maxIndex + 1));
+      indices.add(randomIndex);
+    }
+
+    return Array.from(indices);
+  };
+
   console.log(questions);
 
   const router = useRouter();
 
-  const { setCorrectAnswersCount, setQuestionsAttemptedCount } =
-    useQuizContext();
+  const { quizData, setQuizData } = useQuizContext();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -49,11 +52,15 @@ function QuizPage() {
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
-  const [quizCompleted, setQuizCompleted] = useState(false);
-
   const questionObj = questions && questions[currentQuestion];
   const questionText = questionObj?.question.text;
   const correctAnswer = questionObj?.correctAnswer;
+
+  const [quizRoundStats, setQuizRoundStats] = useState({
+    correctAnswersCount: 0,
+    questionsAttemptedCount: 0,
+  });
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   const incorrectAnswers = useMemo(() => {
     return questionObj?.incorrectAnswers ?? [];
@@ -83,6 +90,18 @@ function QuizPage() {
   };
 
   const handleNextQuestion = () => {
+    if (currentQuestion === questions.length - 1) {
+      setQuizCompleted(true);
+
+      // Calculate quiz round stats
+      const newQuizRoundStats = {
+        correctAnswersCount:
+          quizRoundStats.correctAnswersCount + (isAnswerCorrect ? 1 : 0),
+        questionsAttemptedCount: quizRoundStats.questionsAttemptedCount + 1,
+      };
+
+      setQuizRoundStats(newQuizRoundStats);
+    }
     setAllAnswers([]);
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
@@ -96,7 +115,34 @@ function QuizPage() {
     setSelectedAnswer(null);
   };
 
+  const handleFinish = () => {
+    if (quizCompleted) {
+      // Update global quiz data in context and send to Firebase
+      const updatedQuizData = {
+        correctAnswersCount:
+          quizData.correctAnswersCount + quizRoundStats.correctAnswersCount,
+        questionsAttemptedCount:
+          quizData.questionsAttemptedCount +
+          quizRoundStats.questionsAttemptedCount,
+      };
+
+      setQuizData(updatedQuizData);
+      // TODO: Send updatedQuizData to Firebase
+
+      // Reset quiz round stats
+      setQuizRoundStats({
+        correctAnswersCount: 0,
+        questionsAttemptedCount: 0,
+      });
+
+      // // Navigate to stats page or do other actions
+      // router.push("/admin");
+    }
+  };
+
   const [currentQuizAnswers, setCurrentQuizAnswers] = useState(0);
+
+  const [currentAttemptedAnswers, setCurrentAttemptedAnswers] = useState(0);
 
   const handleSubmit = () => {
     console.log(allAnswers);
@@ -119,14 +165,23 @@ function QuizPage() {
     if (selectedAnswer === correctAnswer) {
       setIsAnswerCorrect(true);
       toast.success("Correct answer!");
-      setCorrectAnswersCount((prevCount) => prevCount + 1);
+      setQuizData((prevData) => ({
+        ...prevData,
+        correctAnswersCount: prevData.correctAnswersCount + 1,
+        questionsAttemptedCount: prevData.questionsAttemptedCount + 1,
+      }));
       setCurrentQuizAnswers((prevCount) => prevCount + 1);
     } else {
       setIsAnswerCorrect(false);
       toast.error("Incorrect answer");
     }
+
+    setCurrentAttemptedAnswers((prevCount) => prevCount + 1);
     // Update the questionsAttempted count
-    setQuestionsAttemptedCount((prevCount) => prevCount + 1);
+    setQuizData((prevData) => ({
+      ...prevData,
+      questionsAttemptedCount: prevData.questionsAttemptedCount + 1,
+    }));
   };
 
   console.log("Length", currentQuestion, questions?.length);
@@ -143,13 +198,11 @@ function QuizPage() {
     setQuizCompleted(false);
     setCurrentQuizAnswers(0);
 
-    // Re-generate random questions
-    let index1 = getRandomIndex(data.length);
-    let index2 = index1 + QUESTIONS_COUNT - 1;
+    // Re-generate random question indices
+    const maxIndex = data.length - 1;
+    const selectedIndices = generateRandomIndices(maxIndex, QUESTIONS_COUNT);
 
-    if (index2 < index1) [index1, index2] = [index2, index1];
-
-    const newQuestions = data?.slice(index1, index2 + 1);
+    const newQuestions = selectedIndices.map((index) => data[index]);
     setQuestions(newQuestions);
 
     // Re-shuffle answers using the JSON data
@@ -173,14 +226,6 @@ function QuizPage() {
       keywords={"vocabulary quiz, learning, app"}
     >
       <div className={styles.quiz__page}>
-        {/* {error && (
-          <div className={`${styles.error} `}>
-            <h1>An error occured while fetching your data</h1>
-            <button className={styles.restart__quiz} onClick={fetchNewData}>
-              Try again
-            </button>
-          </div>
-        )} */}
         {
           <>
             {!quizCompleted && currentQuestion <= questions?.length - 1 ? (
@@ -248,17 +293,19 @@ function QuizPage() {
                       </button>
                     )}
 
-                    {currentQuestion <= questions.length && (
-                      <button
-                        className={styles.next__button}
-                        onClick={handleNextQuestion}
-                        disabled={!isSubmitClicked}
-                      >
-                        {currentQuestion === questions.length - 1
-                          ? "Finish"
-                          : "Next Question"}
-                      </button>
-                    )}
+                    {/* TODO FIX ASAP */}
+                    {isAnswerSubmitted &&
+                      currentQuestion <= questions.length && (
+                        <button
+                          className={styles.next__button}
+                          onClick={handleNextQuestion}
+                          disabled={!isSubmitClicked}
+                        >
+                          {currentQuestion === questions.length - 1
+                            ? "Finish"
+                            : "Next Question"}
+                        </button>
+                      )}
                   </div>
                 </div>
               </div>
@@ -298,3 +345,32 @@ function QuizPage() {
 }
 
 export default QuizPage;
+
+// const questions = data?.slice(0, 2);
+// console.log(questions);
+// useEffect(() => {
+//   const maxIndex = data.length - QUESTIONS_COUNT;
+//   let index1 = getRandomIndex(maxIndex);
+//   let index2 = index1 + QUESTIONS_COUNT - 1;
+
+//   // Swap indexes if index2 is smaller than index1
+//   if (index2 < index1) [index1, index2] = [index2, index1];
+
+//   const newQuestions = data?.slice(index1, index2 + 1);
+
+//   // Set the questions in state
+//   setQuestions(newQuestions);
+
+//   // Update your context or state here
+// }, [data]);
+
+{
+  /* {error && (
+          <div className={`${styles.error} `}>
+            <h1>An error occured while fetching your data</h1>
+            <button className={styles.restart__quiz} onClick={fetchNewData}>
+              Try again
+            </button>
+          </div>
+        )} */
+}

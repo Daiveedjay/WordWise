@@ -28,7 +28,7 @@
 .quiz__question {
   /* border: 2px solid blueviolet; */
   padding: 2rem;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .question__number {
