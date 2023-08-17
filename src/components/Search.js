@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "@/styles/Search.module.css";
 import { useData } from "@/context/DataContext";
 import { FaSearch } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");

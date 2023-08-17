@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Quiz.module.css";
-import { toast } from "react-toastify";
+
 import QuizData from "@/quiz.json";
 import { useQuizContext } from "@/context/QuizContext";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const QUESTIONS_COUNT = 2;
 function QuizPage() {

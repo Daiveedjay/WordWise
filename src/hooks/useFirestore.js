@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 let initialState = {
   document: null,
