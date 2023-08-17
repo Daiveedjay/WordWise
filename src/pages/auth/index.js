@@ -9,6 +9,7 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 import { useSignup } from "@/hooks/useSignup";
 
@@ -21,7 +22,6 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import LoadingComponent from "@/components/Loading";
 import LoadingAnimation from "../../../public/media/Loading_animation.json";
 import { useLogin } from "@/hooks/useLogin";
-import { toast } from "react-hot-toast";
 
 export default function AuthPage() {
   const { user, authIsReady } = useAuthContext();
@@ -46,11 +46,14 @@ export default function AuthPage() {
   const { signInWithGithub } = useGithubSignup();
   console.log("My user, hopefully", user);
   const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isLogin) {
       await login(email, password);
+
+      // toast.success("You logged in successfully");
       return;
     }
 
@@ -59,15 +62,9 @@ export default function AuthPage() {
       return;
     }
 
-    try {
-      await signup(email, password, displayName);
-      if (user) toast.success("You signed up successfully");
-    } catch (error) {
-      // The error handling code for signup
-      console.log(error.message);
-      // Display an error toast for signup failure
-      toast.error(error.message);
-    }
+    await signup(email, password, displayName);
+
+    if (user) toast.success("You signed in successfully");
   };
 
   const togglePasswordVisibility = () => {
@@ -84,10 +81,9 @@ export default function AuthPage() {
   return (
     <>
       {!authIsReady && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
-      {signupIsPending ||
-        (loginIsPending && (
-          <LoadingComponent LoadingAnimation={LoadingAnimation} />
-        ))}
+      {loginIsPending && (
+        <LoadingComponent LoadingAnimation={LoadingAnimation} />
+      )}
       {!user && authIsReady && (
         <div className={styles.Auth__page}>
           <div className={styles.shaper__wrapper}>

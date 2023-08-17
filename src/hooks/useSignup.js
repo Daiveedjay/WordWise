@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { auth } from "@/firebase/config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthContext } from "./useAuthContext";
+import { toast } from "react-hot-toast";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
@@ -34,7 +35,7 @@ export const useSignup = () => {
     } catch (err) {
       if (!isCancelled) {
         console.log(err.message);
-        setError(err.message);
+        toast.error(err.message);
         setIsPending(false);
       }
     }
@@ -44,5 +45,5 @@ export const useSignup = () => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { error, isPending, signup };
+  return { error, isPending, signup, setIsPending };
 };
