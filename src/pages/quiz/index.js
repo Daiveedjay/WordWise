@@ -7,7 +7,7 @@ import { useQuizContext } from "@/context/QuizContext";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
-const QUESTIONS_COUNT = 2;
+const QUESTIONS_COUNT = 10;
 function QuizPage() {
   const [data] = useState(QuizData); // Use the imported JSON data
 
