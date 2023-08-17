@@ -2,7 +2,7 @@ import styles from "@/styles/SearchResult.module.css";
 import FavIconInactive from "../../../public/media/icon-favourite-inactive.svg";
 
 import Layout from "@/components/Layout";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useData } from "@/context/DataContext";
@@ -306,93 +306,3 @@ export default function DailyWord() {
     </Layout>
   );
 }
-
-// const STORAGE_KEY = "randomWord";
-// const API_URL = "https://api.api-ninjas.com/v1/randomword";
-// const API_KEY = "ibyuAqQFkdh6QBsOlAD8aQ==uJuhnESr2akR4FH1";
-
-// This useEffect will run whenever randomWord changes
-// useEffect(() => {
-//   const fetchWordDefinition = async () => {
-//     const definition = await getWordDefinition(randomWord);
-//     console.log("Word Definition:", definition);
-//   };
-
-//   fetchWordDefinition();
-// }, [randomWord]);
-
-//   const data = await response.json();
-//   // Assuming the API response is an array of definitions, I can extract the first definition
-//   const firstDefinition = data[0] || "No definition found";
-//   setWordDetails(firstDefinition);
-// } catch (error) {
-//   console.error("Error fetching word definition:", error);
-// }
-
-// const getRandomWordFromAPI = async () => {
-//   try {
-//     const response = await fetch(API_URL, {
-//       headers: {
-//         "X-Api-Key": API_KEY,
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     const data = await response.json();
-//     const word = data.word || ""; // Extract the word from the API response
-//     return word;
-//   } catch (error) {
-//     console.error("Error fetching random word:", error);
-//     return "";
-//   }
-// };
-
-// useEffect(() => {
-//   const updateRandomWord = async () => {
-//     const newWord = await getRandomWordFromAPI();
-//     if (newWord) {
-//       const definitionFound = await getWordDefinition(newWord);
-//       if (!definitionFound) {
-//         const backupWord =
-//           predefinedBackupWords[
-//             Math.floor(Math.random() * predefinedBackupWords.length)
-//           ];
-//         await getWordDefinition(backupWord);
-//       }
-//       setRandomWord(newWord);
-//       const currentTime = Date.now();
-//       localStorage.setItem(
-//         STORAGE_KEY,
-//         JSON.stringify({ word: newWord, timestamp: currentTime })
-//       );
-//     }
-//   };
-//   // Check if there's a word in local storage and if it's still valid (within 24 hours)
-//   const storedData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-//   const { word, timestamp } = storedData;
-//   const isWordValid =
-//     word && timestamp && Date.now() - timestamp < 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-//   if (isWordValid) {
-//     setRandomWord(word);
-//   } else {
-//     updateRandomWord();
-//   }
-
-//   // Calculate the time until midnight
-//   const now = new Date();
-//   const midnight = new Date(now);
-//   midnight.setHours(24, 0, 0, 0);
-//   const timeUntilMidnight = midnight - now;
-
-//   // Set up a timer to update the word at midnight
-//   const timer = setTimeout(() => {
-//     updateRandomWord();
-//     // Set a new timer for the next midnight
-//     const nextMidnight = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-//     const timeUntilNextMidnight = nextMidnight - now;
-//     setTimeout(updateRandomWord, timeUntilNextMidnight);
-//   }, timeUntilMidnight);
-
-//   // Clear the timer when the component unmounts
-//   return () => clearTimeout(timer);
-// }, [predefinedBackupWords]);

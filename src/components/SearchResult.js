@@ -58,8 +58,6 @@ export default function SearchResult() {
     if (dataKey) {
       await favouriteWord(dataKey, dataName, uid);
       setFavouriteItems((prevSearches) => [...new Set(prevSearches), dataKey]);
-      // toast.success(`${dataKey} added to favourites`);
-      // console.log("----Test Toast Add---");
     }
   };
 
@@ -69,8 +67,6 @@ export default function SearchResult() {
       setFavouriteItems((prevSearches) =>
         prevSearches.filter((item) => item !== dataKey)
       );
-      // toast.success(`${dataKey} removed from favourites`);
-      // console.log("----Test Toast Remove---");
     }
   };
 
@@ -183,7 +179,7 @@ export default function SearchResult() {
                   ))}
               </div>
             </div>
-            {/* TODO SEPERATION */}
+
             {data?.[0]?.meanings[1] && (
               <div className={styles.description}>
                 <div>

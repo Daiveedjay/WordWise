@@ -80,6 +80,8 @@ export default function AuthPage() {
   if (user) router.push("/");
   return (
     <>
+      {loginError && toast.error(`${loginError}`)}
+      {signupError && toast.error(`${signupError}`)}
       {!authIsReady && <LoadingComponent LoadingAnimation={LoadingAnimation} />}
       {signupIsPending ||
         (loginIsPending && (

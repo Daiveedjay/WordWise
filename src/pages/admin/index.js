@@ -16,7 +16,6 @@ export default function AdminPage() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const { resetDataAndSearches } = useData();
-  // console.log(resetDataAndSearches);
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
   const [fetched, setFetched] = useState(false);
@@ -96,8 +95,6 @@ export default function AdminPage() {
     }
   }, [paramValues]);
 
-  // Call the main function
-
   // Function to fetch a new random SVG when the icon is clicked
   const handleAvatarChange = async () => {
     const randomString = getRandomString(paramValues);
@@ -125,11 +122,7 @@ export default function AdminPage() {
       setCorrectAnswersCount(quizData.correctAnswersCount);
       setQuestionsAttemptedCount(quizData.questionsAttemptedCount);
     }
-
-    console.log("Quizdata--------Admin", quizData);
   }, [quizData]);
-
-  // Now you can use correctAnswersCount and questionsAttemptedCount safely
 
   return (
     <Layout

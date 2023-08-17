@@ -1,6 +1,6 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useRouter } from "next/router";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const DataContext = createContext();
 
@@ -71,17 +71,10 @@ export function DataProvider({ children }) {
     }
   };
 
-  // // Reset data and searches when the user changes
-  // useEffect(() => {
-  //   setData(null);
-  //   setSearches(new Set());
-  // }, [user]);
-
   // Reset data and searches when a user initiates a new search
   const resetDataAndSearches = () => {
     setData(null);
     setSearches(new Set());
-    console.log("---I was called--");
   };
 
   return (

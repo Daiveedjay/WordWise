@@ -254,19 +254,6 @@ function QuizPage() {
                       </button>
                     )}
 
-                    {/* TODO FIX ASAP */}
-                    {/* {isAnswerSubmitted &&
-                      currentQuestion <= questions.length && (
-                        <button
-                          className={styles.next__button}
-                          onClick={handleNextQuestion}
-                          disabled={!isSubmitClicked}
-                        >
-                          {currentQuestion === questions.length - 1
-                            ? "Finish"
-                            : "Next Question"}
-                        </button>
-                      )} */}
                     {isAnswerSubmitted &&
                       currentQuestion <= questions.length && (
                         <>
@@ -330,32 +317,3 @@ function QuizPage() {
 }
 
 export default QuizPage;
-
-// const questions = data?.slice(0, 2);
-// console.log(questions);
-// useEffect(() => {
-//   const maxIndex = data.length - QUESTIONS_COUNT;
-//   let index1 = getRandomIndex(maxIndex);
-//   let index2 = index1 + QUESTIONS_COUNT - 1;
-
-//   // Swap indexes if index2 is smaller than index1
-//   if (index2 < index1) [index1, index2] = [index2, index1];
-
-//   const newQuestions = data?.slice(index1, index2 + 1);
-
-//   // Set the questions in state
-//   setQuestions(newQuestions);
-
-//   // Update your context or state here
-// }, [data]);
-
-{
-  /* {error && (
-          <div className={`${styles.error} `}>
-            <h1>An error occured while fetching your data</h1>
-            <button className={styles.restart__quiz} onClick={fetchNewData}>
-              Try again
-            </button>
-          </div>
-        )} */
-}
