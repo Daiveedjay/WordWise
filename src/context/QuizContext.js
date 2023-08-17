@@ -21,9 +21,7 @@ export const QuizProvider = ({ children }) => {
         const collectionRef = collection(db, "quizdata");
         const docRef = doc(collectionRef, user?.uid);
         await setDoc(docRef, quizData); // Use the combined quizData object
-      } catch (error) {
-        console.error("Error creating quizdata collection:", error);
-      }
+      } catch (error) {}
     };
 
     if (user?.uid) {
@@ -50,9 +48,7 @@ export const QuizProvider = ({ children }) => {
             });
           }
         }
-      } catch (error) {
-        console.error("Error fetching initial quiz data:", error);
-      }
+      } catch (error) {}
     };
 
     fetchAndSetInitialQuizData();
@@ -83,11 +79,8 @@ export const QuizProvider = ({ children }) => {
         // Update the local context state as well
         setQuizData(updatedQuizData);
       } else {
-        console.error("Document does not exist.");
       }
-    } catch (error) {
-      console.error("Error updating quiz data:", error);
-    }
+    } catch (error) {}
   };
 
   const contextValue = {

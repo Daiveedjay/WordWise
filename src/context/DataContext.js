@@ -47,7 +47,6 @@ export function DataProvider({ children }) {
       }
 
       const json = await response.json();
-      console.log("My json", json);
 
       // Update the Set by adding the new search term
       setSearches((prevSearches) => new Set(prevSearches).add(searchTerm));

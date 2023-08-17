@@ -8,6 +8,7 @@ import { useFont } from "@/hooks/useFont";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import OGImage from "../og_img.webp";
 
 export default function Layout({ title, keywords, description, children }) {
   const { mode } = useTheme();
@@ -44,6 +45,16 @@ export default function Layout({ title, keywords, description, children }) {
             <title>{title}</title>
             <meta name="description" content={description} />
             <meta name="keywords" content={keywords} />
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={OGImage} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta
+              property="og:url"
+              content="https://word-wise-self.vercel.app/auth"
+            />
+            <meta name="twitter:card" content={OGImage} />
           </Head>
           <div className={styles.shaper__wrapper}>
             <motion.div

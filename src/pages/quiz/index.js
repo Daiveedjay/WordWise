@@ -37,8 +37,6 @@ function QuizPage() {
     return Array.from(indices);
   };
 
-  console.log(questions);
-
   const router = useRouter();
 
   // const { updateQuizData } = useQuizContext();
@@ -108,7 +106,6 @@ function QuizPage() {
   };
 
   const handleSubmit = () => {
-    console.log(allAnswers);
     allAnswers?.forEach((answer) => {
       if (answer === correctAnswer) {
         const buttonElement = document?.querySelector(
@@ -173,12 +170,6 @@ function QuizPage() {
     if (currentQuestion === questions.length - 1) {
       await updateQuizData(currentCorrectAnswers, currentAttemptedQuestions);
     }
-
-    console.log(
-      "Quiz Values at the quiz end --------",
-      currentCorrectAnswers,
-      currentAttemptedQuestions
-    );
   };
 
   const handleStats = () => {

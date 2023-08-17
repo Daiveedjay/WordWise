@@ -58,7 +58,7 @@ export default function AdminPage() {
       const svg = await response.text();
       return svg;
     } catch (error) {
-      console.error("Error fetching SVG:", error);
+     
       return null;
     }
   };

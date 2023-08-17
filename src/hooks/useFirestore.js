@@ -68,7 +68,6 @@ export const useFirestore = (collectionName) => {
 
   // Add new document reference
   const favouriteWord = async (dataKey, dataName, uid) => {
-    console.log("Trying to add document to Firestore...");
     dispatch({ type: "IS_PENDING" });
     try {
       if (uid && dataKey) {
@@ -79,8 +78,6 @@ export const useFirestore = (collectionName) => {
           where("dataKey", "==", dataKey)
         );
         const existingFavouriteSnapshot = await getDocs(existingFavouriteQuery);
-
-        console.log("Existing Sanpshot", existingFavouriteSnapshot);
 
         if (existingFavouriteSnapshot.empty) {
           // Add document if the bookmark doesn't exist
@@ -104,7 +101,6 @@ export const useFirestore = (collectionName) => {
         });
       }
     } catch (error) {
-      console.error("Error adding document to Firestore:", error);
       dispatchIfNotCancelled({
         type: "ERROR",
         payload: error.message,

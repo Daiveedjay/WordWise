@@ -22,7 +22,6 @@ export default function FavouritesPage() {
     await fetchData(searchTerm);
     router.push("/");
   };
-  console.log("My docs", documents);
 
   return (
     <Layout

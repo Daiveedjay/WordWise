@@ -24,8 +24,6 @@ export const useGithubSignup = () => {
         setError(null);
       }
     } catch (err) {
-      console.error(err);
-      console.log(err.message);
       setError(err.message);
       setIsPending(false);
     }

@@ -34,16 +34,14 @@ export default function DailyWord() {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("-----Indicator----", data);
+
         const firstDefinition = data?.[0];
         setWordDetails(firstDefinition);
         return true;
       } else {
-        console.log("Error fetching word definition:", response.status);
         return false;
       }
     } catch (error) {
-      console.log("--------Catch Block Error:-----", error);
       return false;
     }
   };

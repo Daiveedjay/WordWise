@@ -2,14 +2,10 @@
   {
     "id": "1",
     "question": {
-      "text": "Select the sentence with correct subject-verb agreement:"
+      "text": "What is the synonym for 'gregarious'?"
     },
-    "correctAnswer": "The dogs are barking loudly.",
-    "incorrectAnswers": [
-      "The dogs is barking loudly.",
-      "The dog are barking loudly.",
-      "The dog is barking loudly."
-    ]
+    "correctAnswer": "sociable",
+    "incorrectAnswers": ["lonely", "reserved", "introverted"]
   },
   {
     "id": "2",
@@ -22,10 +18,10 @@
   {
     "id": "3",
     "question": {
-      "text": "What is the synonym for 'abundant'?"
+      "text": "Choose the correct spelling: embarrass, embarass, embaras, embarace"
     },
-    "correctAnswer": "plentiful",
-    "incorrectAnswers": ["scarce", "limited", "sparse"]
+    "correctAnswer": "embarrass",
+    "incorrectAnswers": ["embarass", "embaras", "embarace"]
   },
   {
     "id": "4",
