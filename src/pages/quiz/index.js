@@ -39,7 +39,6 @@ function QuizPage() {
 
   const router = useRouter();
 
-  // const { updateQuizData } = useQuizContext();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);

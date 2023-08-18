@@ -1,8 +1,6 @@
 import Layout from "@/components/Layout";
-import LoadingComponent from "@/components/Loading";
 import { useData } from "@/context/DataContext";
-import LoadingAnimation from "../../../public/media/Loading_animation.json";
-// import BaseAnimation from "../../../public/media/Walking_pencil.json";
+
 import styles from "@/styles/Utility.module.css";
 import { useRouter } from "next/router";
 

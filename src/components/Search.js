@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import { useState } from "react";
 import styles from "@/styles/Search.module.css";
 import { useData } from "@/context/DataContext";

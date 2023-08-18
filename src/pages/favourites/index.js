@@ -9,7 +9,6 @@ import { useFirestore } from "@/hooks/useFirestore";
 import LoadingComponent from "@/components/Loading";
 import LoadingAnimation from "../../../public/media/Loading_animation.json";
 import { FaTrash, FaSearch } from "react-icons/fa";
-import BaseAnimation from "../../../public/media/Walking_pencil.json";
 
 export default function FavouritesPage() {
   const { documents, error, isPending } = useCollection("favourites");

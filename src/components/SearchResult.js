@@ -14,7 +14,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import LoadingComponent from "./Loading";
 
 import LoadingAnimation from "../../public/media/Loading_animation.json";
-// import BaseAnimation from "../../public/media/Walking_pencil.json";
+
 
 export default function SearchResult() {
   const { data, isPending, error, fetchData } = useData();

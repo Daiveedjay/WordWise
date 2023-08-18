@@ -12,8 +12,6 @@ import { useFirestore } from "@/hooks/useFirestore";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { db } from "@/firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import LoadingComponent from "@/components/Loading";
-import LoadingAnimation from "../../../public/media/Loading_animation.json";
 import { FaHeart, FaStar, FaPlayCircle } from "react-icons/fa";
 
 export default function DailyWord() {
